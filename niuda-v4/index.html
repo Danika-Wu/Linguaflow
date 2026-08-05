@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#f3f5f8">
+<title>NiuD.AI 手机端 Demo V4</title>
+</head>
+<body>
+<div id="boot" style="font-family:-apple-system,BlinkMacSystemFont,'PingFang SC',sans-serif;padding:24px;color:#1a2230">正在加载 NiuD.AI Demo V4…</div>
+<script>
+(async()=>{
+ try{
+  const cssFiles=["./chunks/css_00.txt", "./chunks/css_01.txt"];
+  const jsFiles=["./chunks/js_00.txt", "./chunks/js_01.txt", "./chunks/js_02.txt", "./chunks/js_03.txt", "./chunks/js_04.txt", "./chunks/js_05.txt"];
+  const css=(await Promise.all(cssFiles.map(x=>fetch(x,{cache:'no-store'}).then(r=>{if(!r.ok)throw Error(x);return r.text()})))).join('');
+  const code=(await Promise.all(jsFiles.map(x=>fetch(x,{cache:'no-store'}).then(r=>{if(!r.ok)throw Error(x);return r.text()})))).join('');
+  document.head.insertAdjacentHTML('beforeend','<style>'+css+'</style>');
+  document.body.innerHTML='<div class="shell"><header class="topbar" id="topbar"></header><main class="main" id="app"></main><nav class="nav" id="nav"></nav></div><div class="overlay" id="overlay"><div class="sheet"><div class="grab"></div><div id="sheetBody"></div></div></div><div class="toast" id="toast"></div>';
+  (0,eval)(code);
+ }catch(e){
+  document.getElementById('boot').innerHTML='<b>页面资源加载失败</b><p>请刷新后重试。</p><small>'+String(e)+'</small>';
+ }
+})();
+</script>
+</body>
+</html>
