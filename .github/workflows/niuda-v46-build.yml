@@ -1,0 +1,81 @@
+name: Build NiuD.AI V4.6
+
+on:
+  push:
+    branches: [niuda-v46]
+    paths:
+      - 'niuda-v46-build/payload/**'
+      - '.github/workflows/niuda-v46-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: niuda-v46
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Rebuild and verify self-contained HTML
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+          const crypto = require('crypto');
+          const zlib = require('zlib');
+
+          const base = 'niuda-v46-build/payload';
+          const names = fs.readdirSync(base)
+            .filter((name) => /^chunk_\d+\.txt$/.test(name))
+            .sort();
+
+          if (names.length !== 10) {
+            throw new Error(`Expected 10 chunks, found ${names.length}`);
+          }
+
+          const b64 = names.map((name) => fs.readFileSync(path.join(base, name), 'utf8').trim()).join('');
+          const b64Hash = crypto.createHash('sha256').update(b64).digest('hex');
+          if (b64.length !== 55672) throw new Error(`Base64 length mismatch: ${b64.length}`);
+          if (b64Hash !== 'a2c93e94b7c25efa8dde06e587839a8c430f6b9f357d42896cbf30cf0d9e7cb9') {
+            throw new Error(`Base64 SHA mismatch: ${b64Hash}`);
+          }
+
+          const html = zlib.brotliDecompressSync(Buffer.from(b64, 'base64'));
+          const htmlHash = crypto.createHash('sha256').update(html).digest('hex');
+          if (html.length !== 172033) throw new Error(`HTML length mismatch: ${html.length}`);
+          if (htmlHash !== '89c3fee41381d908ba81d09be6ab1bfc8a85c852630759c24287d13888d2cc9a') {
+            throw new Error(`HTML SHA mismatch: ${htmlHash}`);
+          }
+
+          fs.mkdirSync('niuda-v46-build', { recursive: true });
+          fs.writeFileSync('niuda-v46-build/index.html', html);
+          fs.writeFileSync('niuda-v46-build/build.json', JSON.stringify({
+            version: '4.6.0',
+            build: 'v4.6.0-institutional-platform',
+            html_bytes: html.length,
+            sha256: htmlHash,
+            generated_at: new Date().toISOString()
+          }, null, 2) + '\n');
+          console.log(`Verified NiuD.AI V4.6: ${html.length} bytes, ${htmlHash}`);
+          NODE
+
+      - name: Commit verified build
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add niuda-v46-build/index.html niuda-v46-build/build.json
+          if git diff --cached --quiet; then
+            echo 'Verified build already current.'
+          else
+            git commit -m 'Build verified NiuD.AI V4.6 HTML'
+            git push origin HEAD:niuda-v46
+          fi
