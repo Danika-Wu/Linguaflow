@@ -1,0 +1,1165 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#f4f7fb" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="description" content="NiuD.AI 中国A股智能预测与交易决策系统手机端 Demo V4.6" />
+  <title>NiuD.AI 手机端 Demo V4.6</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2716%27 fill=%27%23101d33%27/%3E%3Ctext x=%2732%27 y=%2741%27 font-size=%2728%27 text-anchor=%27middle%27 fill=%27white%27 font-family=%27Arial%27%3EN%3C/text%3E%3C/svg%3E" />
+  <style>:root {
+  --bg:#f4f7fb; --surface:#ffffff; --surface-2:#f0f4f9; --surface-3:#e8eef6;
+  --text:#111827; --muted:#6f7c8f; --line:#dfe6ef; --blue:#1769e8; --blue-2:#e9f1ff;
+  --green:#0b966b; --green-2:#e8f8f1; --red:#d6424d; --red-2:#fff0f1;
+  --amber:#af6d09; --amber-2:#fff5e6; --purple:#6854d9; --purple-2:#f0edff;
+  --ink:#0f1b2f; --shadow:0 10px 32px rgba(23,42,72,.08); --radius:20px;
+}
+html[data-theme="dark"] {
+  --bg:#0b1119; --surface:#141d28; --surface-2:#101720; --surface-3:#263242;
+  --text:#f5f7fb; --muted:#9ba8b8; --line:#283545; --blue:#78a8ff; --blue-2:#152744;
+  --green:#49c99b; --green-2:#133027; --red:#ff737c; --red-2:#3b1c22;
+  --amber:#f0ad49; --amber-2:#3d2b12; --purple:#ad9dff; --purple-2:#292243;
+  --ink:#edf3ff; --shadow:0 12px 34px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif}
+body{display:flex;justify-content:center}
+button,input{font:inherit}
+button{cursor:pointer}
+.app-shell{width:min(100%,430px);min-height:100dvh;background:var(--bg);padding-bottom:84px;position:relative}
+.topbar{height:64px;padding:0 12px;display:grid;grid-template-columns:58px 1fr 58px;align-items:center;position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+.top-action{height:40px;border:0;border-radius:14px;background:var(--surface);color:var(--text);font-weight:900;box-shadow:var(--shadow);position:relative}
+.top-action.has-dot::after{content:"";position:absolute;right:6px;top:6px;width:7px;height:7px;border-radius:50%;background:var(--red);border:2px solid var(--surface)}
+.logo{text-align:center;font-size:19px;font-weight:950;letter-spacing:-.4px}
+.logo small{display:block;font-size:8px;color:var(--muted);letter-spacing:1.2px;margin-top:2px}
+.main{padding:14px 13px 28px}
+.bottom-nav{position:fixed;bottom:0;width:min(100%,430px);height:82px;display:grid;grid-template-columns:repeat(6,1fr);background:var(--surface);border-top:1px solid var(--line);z-index:60;padding-bottom:env(safe-area-inset-bottom)}
+.bottom-nav button{border:0;background:transparent;color:var(--muted);font-size:8px;display:grid;place-content:center;gap:3px;min-width:0}
+.bottom-nav button .nav-icon{font-size:19px;line-height:1}.bottom-nav button.active{color:var(--blue);font-weight:900}
+.hidden{display:none!important}
+.page{animation:pageIn .18s ease}
+@keyframes pageIn{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+.hero{border-radius:26px;padding:20px;color:#fff;background:linear-gradient(145deg,#101d33,#254a7d 65%,#172b49);box-shadow:0 20px 48px rgba(17,44,83,.18)}
+.hero.purple{background:linear-gradient(145deg,#18122e,#44357b 65%,#28204e)}
+.hero.cyan{background:linear-gradient(145deg,#071b24,#174657 65%,#11323f)}
+.hero.danger{background:linear-gradient(145deg,#41171b,#7f2d34 65%,#511c22)}
+.hero .eyebrow{font-size:9px;opacity:.72}.hero h1{font-size:29px;margin:8px 0 4px}.hero p{font-size:10px;line-height:1.6;opacity:.84;margin:0}
+.hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:17px}.hero-grid div{padding:10px 7px;background:rgba(255,255,255,.1);border-radius:14px}.hero-grid b{display:block;font-size:14px}.hero-grid span{font-size:8px;opacity:.74}
+.layer-stack{display:grid;gap:10px;margin-top:12px}.layer{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;box-shadow:var(--shadow)}
+.layer-head,.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.layer-number{width:25px;height:25px;border-radius:9px;display:grid;place-items:center;background:var(--surface-2);color:var(--blue);font-weight:950;font-size:10px}.layer-title{font-size:13px;font-weight:900}.layer-desc{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.5}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}.metric{border-radius:18px;padding:13px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}.metric label,.metric small{font-size:9px;color:var(--muted)}.metric b{display:block;font-size:19px;margin:5px 0 3px}
+.section{display:flex;justify-content:space-between;align-items:flex-end;margin:19px 2px 9px}.section h2{font-size:17px;margin:0}.section button{border:0;background:transparent;color:var(--blue);font-size:9px;font-weight:900}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px;margin-bottom:11px;box-shadow:var(--shadow)}
+.title{font-size:14px;font-weight:900}.sub{font-size:9px;color:var(--muted);line-height:1.55;margin-top:3px}.muted{color:var(--muted)}
+.badge{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;padding:5px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);font-size:8px;font-weight:900;border:1px solid transparent}
+.badge.green{background:var(--green-2);color:var(--green)}.badge.red{background:var(--red-2);color:var(--red)}.badge.amber{background:var(--amber-2);color:var(--amber)}.badge.blue{background:var(--blue-2);color:var(--blue)}.badge.purple{background:var(--purple-2);color:var(--purple)}
+.authority{padding:4px 7px;border-radius:8px;font-size:8px;font-weight:950}.authority.t0{background:#14213b;color:#fff}.authority.t1{background:#1769e8;color:#fff}.authority.t2{border:1px solid #8d9bad;color:#64748b;background:transparent}.authority.t3{border:1px solid #d79a38;color:var(--amber);background:var(--amber-2)}.authority.t4{background:var(--surface-2);color:var(--muted)}.authority.t5{background:var(--purple-2);color:var(--purple)}
+.authority-row{display:flex;gap:5px;flex-wrap:wrap}.source-tag{display:inline-flex;align-items:center;gap:5px;padding:6px 8px;border-radius:10px;background:var(--surface-2);font-size:8px;color:var(--muted)}
+.chev{font-size:22px;color:var(--muted)}
+.strategy-card{cursor:pointer}.strategy-card .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:11px}.stats div{padding-left:8px;border-left:2px solid var(--line)}.stats label{display:block;font-size:8px;color:var(--muted)}.stats b{font-size:12px}
+.execution-card{border:1px solid color-mix(in srgb,var(--blue) 30%,var(--line));position:relative;overflow:hidden}.execution-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--blue)}
+.block-card{border-color:color-mix(in srgb,var(--red) 40%,var(--line));background:linear-gradient(180deg,var(--surface),var(--red-2))}.block-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--red-2);color:var(--red);font-size:21px}.reason-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:9px;color:var(--red);word-break:break-all;margin-top:8px;font-weight:800}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.btn{border:0;border-radius:13px;padding:11px 9px;background:var(--surface-2);color:var(--text);font-size:10px;font-weight:900}.btn.primary{background:var(--blue);color:#fff}.btn.purple{background:var(--purple);color:#fff}.btn.danger{background:var(--red-2);color:var(--red)}.btn.full{width:100%}
+.kv{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:11px 0;border-bottom:1px solid var(--line);font-size:10px}.kv:last-child{border-bottom:0}.kv span{color:var(--muted)}.kv b{text-align:right;max-width:65%}
+.gate{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.gate:last-child{border-bottom:0}.gate-icon{width:29px;height:29px;border-radius:10px;display:grid;place-items:center;background:var(--green-2);color:var(--green);font-weight:950}.gate-icon.warn{background:var(--amber-2);color:var(--amber)}.gate-icon.block{background:var(--red-2);color:var(--red)}.gate b{font-size:11px}.gate span{display:block;font-size:9px;color:var(--muted);margin-top:2px}
+.notice{border-radius:15px;padding:12px;font-size:9px;line-height:1.65;margin-bottom:11px;background:var(--amber-2);color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 30%,var(--line))}.notice.blue{background:var(--blue-2);color:var(--blue);border-color:color-mix(in srgb,var(--blue) 25%,var(--line))}.notice.red{background:var(--red-2);color:var(--red);border-color:color-mix(in srgb,var(--red) 30%,var(--line))}
+.tabs,.seg{display:flex;gap:5px;overflow:auto;scrollbar-width:none}.seg{padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:15px;margin:11px 0 12px}.seg button,.tabs button{border:0;background:transparent;color:var(--muted);white-space:nowrap;font-size:9px;font-weight:850}.seg button{padding:8px 11px;border-radius:11px}.seg button.active{background:var(--text);color:var(--bg)}.tabs{gap:18px;border-bottom:1px solid var(--line);margin-bottom:12px}.tabs button{padding:10px 0 9px}.tabs button.active{color:var(--text);border-bottom:2px solid var(--blue)}
+.status{text-align:center;padding:25px 18px}.orb{width:82px;height:82px;border-radius:28px;margin:0 auto 13px;display:grid;place-items:center;background:var(--blue-2);color:var(--blue);font-size:32px}.status h2{font-size:18px;margin:0 0 7px}.status p{font-size:10px;color:var(--muted);line-height:1.65;margin:0}.timer{display:inline-flex;margin-top:12px;padding:7px 11px;border-radius:99px;background:var(--surface-2);font-size:9px;color:var(--muted)}
+.stock{font-size:18px;font-weight:950}.code{font-size:9px;color:var(--muted);margin-top:2px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.cell{background:var(--surface-2);border-radius:13px;padding:9px}.cell label{display:block;font-size:8px;color:var(--muted)}.cell b{display:block;font-size:13px;margin-top:4px}
+.data-drawer{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}.data-drawer summary{cursor:pointer;color:var(--blue);font-size:9px;font-weight:900;list-style:none}.data-drawer summary::-webkit-details-marker{display:none}.drawer-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.drawer-grid div{background:var(--surface-2);border-radius:12px;padding:9px}.drawer-grid label{display:block;font-size:8px;color:var(--muted)}.drawer-grid b{font-size:10px;margin-top:4px;display:block}.dataset-list{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.search{display:flex;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:6px;box-shadow:var(--shadow)}.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--text);font-size:13px;padding:8px}.search button{border:0;border-radius:11px;background:var(--blue);color:#fff;padding:0 14px;font-weight:900}.mode-hints{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:9px 0 12px}.mode-hint{border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--surface)}.mode-hint.active{border-color:var(--blue);background:var(--blue-2)}.mode-hint b{display:block;font-size:10px}.mode-hint span{display:block;font-size:8px;color:var(--muted);margin-top:3px;line-height:1.5}
+.subhead{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;margin:-2px 0 12px}.subhead h1{text-align:center;font-size:17px;margin:0}.subhead button{border:0;border-radius:12px;background:var(--surface);color:var(--text);height:38px;font-size:20px}
+.entry{display:flex;align-items:center;gap:12px;cursor:pointer}.entry-icon{width:43px;height:43px;border-radius:14px;background:var(--blue-2);color:var(--blue);display:grid;place-items:center;font-size:17px}.grow{flex:1;min-width:0}
+.setting{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.setting:last-child{border-bottom:0}.choice{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.choice button{border:1px solid var(--line);background:var(--surface-2);color:var(--muted);padding:7px 9px;border-radius:10px;font-size:9px;font-weight:850}.choice button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.event{position:relative;padding:0 0 16px 21px}.event::before{content:"";position:absolute;left:5px;top:5px;bottom:-5px;width:1px;background:var(--line)}.event:last-child::before{display:none}.event-dot{position:absolute;left:0;top:2px;width:11px;height:11px;border-radius:50%;background:var(--blue);border:3px solid var(--surface)}.event h3{font-size:11px;margin:0}.event p{font-size:9px;color:var(--muted);line-height:1.55;margin:3px 0 0}
+.license-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.license-row:last-child{border-bottom:0}
+.modal-backdrop{position:fixed;inset:0;background:rgba(4,10,18,.48);z-index:100;display:flex;align-items:flex-end;justify-content:center}.modal{width:min(100%,430px);max-height:90dvh;overflow:auto;background:var(--surface);border-radius:28px 28px 0 0;padding:13px 16px 30px}.grab{width:42px;height:5px;border-radius:99px;background:var(--line);margin:0 auto 15px}
+#toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%) translateY(14px);opacity:0;background:var(--text);color:var(--bg);padding:9px 13px;border-radius:12px;font-size:10px;z-index:120;transition:.2s;white-space:nowrap;pointer-events:none}#toast.show{opacity:1;transform:translateX(-50%)}
+.red{color:var(--red)!important}.green{color:var(--green)!important}.amber{color:var(--amber)!important}.blue{color:var(--blue)!important}.purple{color:var(--purple)!important}
+/* Real loading skeleton */
+.sk{position:relative;overflow:hidden;background:var(--surface-3);border-radius:14px}.sk::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.36),transparent);animation:shimmer 1.1s infinite}@keyframes shimmer{100%{transform:translateX(100%)}}
+.skeleton-topbar{gap:15px}.sk-icon{width:42px;height:38px}.sk-logo{height:22px;width:110px;justify-self:center}.skeleton-main{display:grid;gap:12px}.sk-hero{height:176px;border-radius:26px}.sk-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.sk-card{height:86px}.sk-wide{height:104px}.skeleton-nav{align-items:center;padding:0 10px}.sk-nav{height:44px;margin:0 4px}
+.noscript{position:fixed;inset:20px;display:grid;place-items:center;text-align:center;background:var(--surface);color:var(--text);z-index:200;border-radius:22px;padding:24px}
+html[data-font="large"] .title{font-size:16px}html[data-font="large"] .sub,html[data-font="large"] .badge,html[data-font="large"] .gate span{font-size:10px}html[data-font="large"] .kv,html[data-font="large"] .gate b{font-size:12px}
+@media(min-width:431px){body{padding:18px 0}.app-shell{border-radius:29px;overflow:hidden;box-shadow:0 22px 70px rgba(0,0,0,.16)}.bottom-nav{bottom:18px;border-radius:0 0 29px 29px}}
+
+/* V4.2 production-interaction additions */
+:root{--rise:#d9434e;--fall:#0a9c6a;--warning:#b7750e;font-variant-numeric:tabular-nums}
+html[data-theme="dark"]{--rise:#ff747e;--fall:#47c99a;--warning:#efb052}
+body,.metric b,.cell b,.stats b,.price,.kv b,.live-countdown{font-variant-numeric:tabular-nums lining-nums}
+.rise{color:var(--rise)!important}.fall{color:var(--fall)!important}.price{font-size:18px}
+.term-row{display:flex;align-items:center;gap:8px}.term-row h1{margin-right:0}.term-help{width:25px;height:25px;border-radius:50%;border:1px solid rgba(255,255,255,.36);background:rgba(255,255,255,.12);color:#fff;font-weight:950}
+.glass{background:rgba(255,255,255,.14)!important;color:#fff!important;border:1px solid rgba(255,255,255,.22)!important}
+.live-countdown,.confirm-countdown{display:block;margin:10px 0;padding:9px 11px;border-radius:12px;background:var(--blue-2);color:var(--blue);font-size:10px;font-weight:900;text-align:center}
+.live-countdown.expired,.confirm-countdown.expired{background:var(--surface-3);color:var(--muted)}
+.expired-card{filter:grayscale(.72);opacity:.67}.expired-card .btn{pointer-events:none}
+.btn:disabled{opacity:.48;cursor:not-allowed}.btn.secondary{background:var(--surface-2);border:1px solid var(--line);color:var(--text)}
+.btn.equal-confirm{background:var(--blue-2);border:1px solid var(--blue);color:var(--blue)}
+.confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.cancel-strong,.continue-equal{min-height:46px;border:1px solid var(--line)}.cancel-strong{background:var(--surface);color:var(--text);box-shadow:inset 0 0 0 1px var(--text)}.continue-equal{background:var(--blue-2);color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue)}
+.confirmation-risk{padding:12px;border-radius:14px;margin:12px 0;background:var(--green-2);color:var(--green);font-size:10px;font-weight:800;line-height:1.55}.confirmation-risk.blocked{background:var(--red-2);color:var(--red)}
+.why-drawer{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}.why-drawer summary{list-style:none;color:var(--purple);font-size:9px;font-weight:950;cursor:pointer}.why-drawer summary::-webkit-details-marker{display:none}.evidence-group{margin-top:11px}.evidence-title{font-size:9px;font-weight:950;margin-bottom:7px}.evidence-row{padding:8px 0;border-bottom:1px solid var(--line)}.evidence-row span{display:block;font-size:9px;line-height:1.45}.evidence-row i{display:block;width:var(--evidence);height:3px;border-radius:99px;background:currentColor;margin-top:6px;opacity:.55}
+.system-alert{border-radius:16px;padding:12px 13px;margin-bottom:11px;display:grid;grid-template-columns:1fr auto;gap:5px 10px;align-items:center}.system-alert b{font-size:11px}.system-alert span{font-size:9px;line-height:1.5}.system-alert button{grid-row:1/3;grid-column:2;border:0;border-radius:11px;padding:8px;background:rgba(255,255,255,.5);color:inherit;font-weight:900}.system-alert.danger{background:var(--red-2);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 30%,var(--line))}.system-alert.warning{background:var(--amber-2);color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 30%,var(--line))}
+.fresh{color:var(--green)!important}.stale{color:var(--red)!important;font-weight:950}
+.risk-footer{margin:24px 6px 6px;color:var(--muted);font-size:8px;line-height:1.6;text-align:center;padding:12px;border-top:1px solid var(--line)}
+.amber-strong{background:var(--amber-2);color:var(--amber);border:1px solid color-mix(in srgb,var(--amber) 35%,var(--line))}
+.state-preview::before{content:"状态预览";position:sticky;left:0;font-size:7px;color:var(--muted);align-self:center;padding-left:4px}
+.modal-copy{font-size:11px;line-height:1.7;color:var(--muted)}.compact-modal{max-width:430px}.onboarding-modal{text-align:center}.onboarding-mark{display:inline-block;padding:6px 10px;border-radius:10px;background:var(--ink);color:var(--bg);font-size:10px;font-weight:950;letter-spacing:1px}.onboarding-modal h2{font-size:23px}.onboarding-grid{text-align:left;margin:15px 0}.onboarding-grid .gate{padding:11px 0}
+
+
+/* V4.3 commercialization, trust and suitability */
+.platform-strip{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 13px;border-radius:17px;margin-bottom:11px;background:var(--blue-2);border:1px solid color-mix(in srgb,var(--blue) 25%,var(--line))}.platform-strip b{display:block;font-size:11px}.platform-strip span{display:block;font-size:8px;line-height:1.5;color:var(--muted);margin-top:3px}.platform-strip.partnerPreview{background:var(--purple-2);border-color:color-mix(in srgb,var(--purple) 30%,var(--line))}.platform-strip.institutional{background:var(--green-2);border-color:color-mix(in srgb,var(--green) 30%,var(--line))}
+.locked-value{display:inline-flex;gap:4px;align-items:center;color:var(--amber);font-size:9px}.locked-grid .cell{background:repeating-linear-gradient(135deg,var(--surface-2),var(--surface-2) 7px,var(--surface-3) 7px,var(--surface-3) 14px)}
+.feature-lock{display:grid;grid-template-columns:32px 1fr auto;gap:9px;align-items:center;padding:12px;border-radius:15px;margin-top:10px;background:color-mix(in srgb,var(--surface-2) 86%,transparent);border:1px dashed var(--line)}.feature-lock .lock-mark{font-size:18px}.feature-lock b{display:block;font-size:10px}.feature-lock span{display:block;font-size:8px;color:var(--muted);margin-top:3px}.feature-lock button{border:0;background:var(--text);color:var(--bg);border-radius:10px;padding:7px 9px;font-size:8px;font-weight:900}
+.performance-warning{padding:16px;border-radius:18px;background:var(--red-2);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 32%,var(--line));margin-bottom:11px}.performance-warning b{display:block;font-size:14px}.performance-warning span{display:block;font-size:9px;line-height:1.6;margin-top:5px}.perf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:12px 0}.perf-grid div{padding:9px 5px;border-radius:12px;background:var(--surface-2);text-align:center}.perf-grid label{display:block;font-size:7px;color:var(--muted)}.perf-grid b{display:block;font-size:11px;margin-top:4px}
+.mode-switch{justify-content:stretch;margin:10px 0}.mode-switch button{flex:1}.account-mode{border-left:4px solid var(--line)}.active-mode{border-left-color:var(--green)}.locked-mode{opacity:.72;filter:saturate(.65)}
+.plan-card{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:16px;border-radius:20px;background:var(--surface);border:1px solid var(--line);margin-bottom:10px;box-shadow:var(--shadow)}.plan-card div b{display:block;font-size:14px}.plan-card div span{display:block;font-size:9px;color:var(--muted);line-height:1.55;margin-top:5px}.plan-card strong{font-size:14px;color:var(--blue)}.plan-card button{grid-column:1/3;border:0;border-radius:12px;padding:10px;background:var(--surface-2);color:var(--text);font-weight:900}.plan-card.selected{border-color:var(--purple);background:var(--purple-2)}
+.message-card{cursor:pointer}.message-meta{display:flex;justify-content:space-between;margin-top:10px;padding-top:9px;border-top:1px solid var(--line);font-size:8px;color:var(--muted)}
+.toggle{border:1px solid var(--line);border-radius:99px;padding:7px 10px;background:var(--surface-2);color:var(--muted);font-size:9px;font-weight:900}.toggle.on{background:var(--green-2);color:var(--green);border-color:var(--green)}
+.question-title{font-size:18px;line-height:1.45;margin:18px 0}.answer-list{display:grid;gap:8px;margin-bottom:14px}.answer-list button{border:1px solid var(--line);border-radius:14px;padding:13px;background:var(--surface);color:var(--text);text-align:left;font-weight:850}.answer-list button:active{background:var(--blue-2);border-color:var(--blue)}
+.form-label{display:block;font-size:9px;color:var(--muted);margin:12px 0 5px}.form-input{width:100%;border:1px solid var(--line);border-radius:13px;background:var(--surface-2);color:var(--text);padding:12px;outline:0}.form-input:focus{border-color:var(--blue)}
+@media(max-width:360px){.perf-grid{grid-template-columns:repeat(3,1fr)}.platform-strip{grid-template-columns:1fr}.platform-strip>.badge{justify-self:start}}
+
+/* V4.4 commercial wedge, progressive disclosure and analyst visualization */
+.locked-value{appearance:none;border:0;background:transparent;padding:0;text-align:left;font-weight:850;cursor:pointer}
+.safety-strip{display:grid;grid-template-columns:42px 1fr auto 16px;gap:10px;align-items:center;padding:13px 12px;margin-bottom:11px;border-radius:18px;background:var(--green-2);border:1px solid color-mix(in srgb,var(--green) 28%,var(--line));box-shadow:var(--shadow);cursor:pointer}
+.safety-strip.has-risk{background:var(--red-2);border-color:color-mix(in srgb,var(--red) 35%,var(--line))}
+.safety-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:var(--surface);color:var(--green);font-weight:950;font-size:18px}
+.safety-strip.has-risk .safety-icon{color:var(--red)}
+.safety-strip b{display:block;font-size:12px}.safety-strip span{display:block;font-size:8px;color:var(--muted);line-height:1.5;margin-top:3px}
+.safety-watch-card{border-left:4px solid var(--green)}.safety-watch-card:has(.badge.red){border-left-color:var(--red)}
+.waterfall{display:grid;gap:10px}.waterfall-title{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}.waterfall-title b{font-size:14px}.waterfall-title span{font-size:8px;color:var(--muted)}
+.waterfall-row{display:grid;grid-template-columns:minmax(104px,1.1fr) minmax(92px,1fr) 60px;gap:8px;align-items:center}.waterfall-row>div:first-child b{display:block;font-size:9px}.waterfall-row>div:first-child span{display:block;font-size:7px;color:var(--muted);margin-top:2px;word-break:break-all}.waterfall-row strong{text-align:right;font-size:10px}
+.waterfall-track{height:11px;border-radius:99px;background:var(--surface-2);overflow:hidden;display:flex;align-items:center}.waterfall-track i{display:block;width:var(--wf);height:100%;border-radius:99px}.waterfall-track i.positive{background:linear-gradient(90deg,var(--red),color-mix(in srgb,var(--red) 55%,white))}.waterfall-track i.negative{background:linear-gradient(90deg,var(--green),color-mix(in srgb,var(--green) 55%,white))}.waterfall-track i.provider{background:linear-gradient(90deg,var(--amber),color-mix(in srgb,var(--amber) 55%,white))}
+.waterfall-total{display:flex;align-items:center;justify-content:space-between;padding:13px;border-radius:15px;background:var(--blue-2);border:1px solid color-mix(in srgb,var(--blue) 26%,var(--line))}.waterfall-total b{display:block;font-size:13px}.waterfall-total span{display:block;font-size:8px;color:var(--muted);margin-top:3px}.waterfall-total strong{font-size:20px;color:var(--blue)}
+.zero-group{padding:0;overflow:hidden}.zero-group summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;cursor:pointer}.zero-group summary::-webkit-details-marker{display:none}.zero-group summary b{display:block;font-size:12px}.zero-group summary span{display:block;font-size:8px;color:var(--muted);line-height:1.5;margin-top:3px}.zero-candidates{padding:0 14px 12px;border-top:1px solid var(--line)}.zero-candidate{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.zero-candidate:last-child{border-bottom:0}.zero-candidate b{display:block;font-size:10px}.zero-candidate span{display:block;font-size:8px;color:var(--muted);margin-top:3px}.zero-candidate code{font-size:7px;color:var(--red);max-width:128px;text-align:right;word-break:break-all}
+.evidence-locked-row{filter:blur(3px);user-select:none;pointer-events:none;opacity:.45}
+html[data-detail="simple"] .professional-only{display:none!important}
+html[data-detail="simple"] .reason-code{display:none!important}
+@media(max-width:360px){.safety-strip{grid-template-columns:38px 1fr 16px}.safety-strip>.badge{display:none}.waterfall-row{grid-template-columns:100px 1fr 54px}}
+
+/* V4.5 reliability boundary, lighter home and simplified commercialization */
+.safety-strip.degraded{background:var(--amber-2);border-color:color-mix(in srgb,var(--amber) 40%,var(--line))}.safety-strip.degraded .safety-icon{color:var(--amber)}
+.compact-layer{padding:0;overflow:hidden}.compact-layer summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 14px;cursor:pointer}.compact-layer summary::-webkit-details-marker{display:none}.compact-layer summary::after{content:'＋';color:var(--muted);font-weight:900}.compact-layer[open] summary::after{content:'−'}.compact-layer .layer-body{padding:0 14px 14px;border-top:1px solid var(--line)}
+.safety-first-home .hero{margin-bottom:11px}.research-teaser{border:1px solid color-mix(in srgb,var(--blue) 25%,var(--line));background:linear-gradient(180deg,var(--surface),var(--blue-2))}
+.coverage-card{border-left:4px solid var(--amber)}.degraded-card{border-left-color:var(--amber)!important;background:linear-gradient(180deg,var(--surface),var(--amber-2))}
+.quant-policy-note{padding:10px;border-radius:13px;background:var(--amber-2);color:var(--amber);font-size:9px}
+@media(max-width:360px){.compact-layer summary{align-items:flex-start}.compact-layer summary>.badge{display:none}}
+
+/* V4.6 institutional productization, density ladder and hard shadow separation */
+.owner-strip{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 13px;margin-bottom:10px;border-radius:18px;background:linear-gradient(135deg,var(--purple-2),var(--blue-2));border:1px solid color-mix(in srgb,var(--purple) 32%,var(--line))}.owner-strip b{display:block;font-size:11px}.owner-strip span{display:block;font-size:8px;color:var(--muted);line-height:1.5;margin-top:3px}
+.density-strip{width:100%;display:grid;gap:3px;text-align:left;border:1px solid var(--line);border-radius:16px;padding:10px 12px;margin-bottom:11px;background:var(--surface);color:var(--text);box-shadow:var(--shadow)}.density-strip>span{font-size:7px;letter-spacing:.7px;color:var(--muted)}.density-strip>b{font-size:10px}.density-strip>small{font-size:8px;line-height:1.45;color:var(--muted)}.density-strip.green{border-color:color-mix(in srgb,var(--green) 30%,var(--line))}.density-strip.blue{border-color:color-mix(in srgb,var(--blue) 30%,var(--line))}.density-strip.purple{border-color:color-mix(in srgb,var(--purple) 35%,var(--line))}.density-strip.amber{border-color:color-mix(in srgb,var(--amber) 40%,var(--line))}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:11px 0}.quick-grid .card{margin:0;min-height:84px}.quick-grid .entry{align-items:flex-start}
+.help-fab{position:fixed;right:max(calc((100vw - 430px)/2 + 12px),12px);bottom:92px;width:42px;height:42px;border-radius:50%;border:1px solid color-mix(in srgb,var(--blue) 35%,var(--line));background:var(--surface);color:var(--blue);font-weight:950;font-size:18px;z-index:61;box-shadow:var(--shadow)}
+
+.shadow-card{position:relative!important;border:2px solid color-mix(in srgb,var(--purple) 62%,var(--line))!important;background:linear-gradient(180deg,var(--surface),color-mix(in srgb,var(--purple-2) 54%,var(--surface)))!important;padding-top:34px!important;overflow:visible!important}.shadow-card::before{content:"SHADOW · 非真实收益";position:absolute;top:7px;right:8px;z-index:4;padding:4px 7px;border-radius:8px;background:var(--purple);color:#fff;font-size:7px;font-weight:950;letter-spacing:.25px;box-shadow:0 4px 12px rgba(72,52,150,.22)}.shadow-card .shadow-stamp{display:none}.shadow-stamp{display:inline-flex;padding:4px 7px;border-radius:8px;background:var(--purple);color:#fff;font-size:7px;font-weight:950;letter-spacing:.25px}.shadow-banner{position:relative;display:grid;gap:4px;padding:42px 13px 13px;margin:0 0 11px;border-radius:18px;border:2px solid color-mix(in srgb,var(--purple) 62%,var(--line));background:var(--purple-2)}.shadow-banner>.shadow-stamp{position:absolute;top:8px;right:8px}.shadow-banner b{font-size:12px}.shadow-banner span{font-size:8px;color:var(--muted);line-height:1.5}
+
+.level2-disclosure{display:grid;gap:7px;padding:13px;margin:11px 0;border-radius:17px;background:var(--amber-2);color:var(--amber);border:2px solid color-mix(in srgb,var(--amber) 48%,var(--line));box-shadow:var(--shadow)}.level2-disclosure b{font-size:11px}.level2-disclosure p{font-size:9px;line-height:1.62;margin:0;color:inherit}
+
+.density-control input[type=range]{width:100%;accent-color:var(--purple);margin:20px 0 8px}.density-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.density-labels button{border:1px solid var(--line);background:var(--surface-2);color:var(--muted);padding:8px 4px;border-radius:10px;font-size:8px;font-weight:900}.density-labels button.active{background:var(--purple);border-color:var(--purple);color:#fff}
+.boundary-entry{border:2px solid color-mix(in srgb,var(--red) 46%,var(--line));background:linear-gradient(180deg,var(--surface),var(--red-2));cursor:pointer}.boundary-card{border-left:5px solid var(--red)}.boundary-backdrop{align-items:center;padding:12px}.boundary-modal{border-radius:28px;max-height:94dvh}.boundary-check{display:flex;gap:10px;align-items:flex-start;padding:12px;margin:12px 0;border:1px solid var(--line);border-radius:14px;background:var(--surface-2);font-size:10px;line-height:1.55}.boundary-check input{margin-top:3px;accent-color:var(--blue)}
+
+.performance-warning+.seg{margin-top:0}.perf-grid{grid-template-columns:repeat(3,1fr)}.confidence-note{padding:10px;border-radius:13px;background:var(--amber-2);color:var(--amber);font-size:8px;line-height:1.55}.research-context{border-left:4px solid var(--amber)}
+.honesty-hero{border-radius:25px;padding:20px;margin-bottom:12px;background:linear-gradient(145deg,#0f1b2f,#1d365c);color:#fff;box-shadow:var(--shadow)}.honesty-hero>span{font-size:8px;letter-spacing:.8px;color:#9dc0ff}.honesty-hero h1{font-size:25px;margin:10px 0 7px}.honesty-hero p{font-size:10px;line-height:1.65;color:#c8d4e5}.share-preview{width:100%;display:block;border-radius:18px;margin:12px 0;border:1px solid var(--line)}
+
+.radar-head{display:grid;grid-template-columns:1.1fr .9fr 1.15fr;gap:8px;padding:10px 12px;color:var(--muted);font-size:8px;font-weight:900}.radar-row{position:relative;display:grid;grid-template-columns:1.1fr .9fr 1.15fr;gap:8px;align-items:center;padding:14px 12px;margin-bottom:8px;border-radius:17px;background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow)}.radar-row>div{min-width:0}.radar-row b{display:block;font-size:10px}.radar-row span,.radar-row small{display:block;font-size:7px;color:var(--muted);margin-top:3px}.radar-row>div:last-child{display:grid;grid-template-columns:1fr 24px;align-items:center;gap:4px}.radar-row>div:last-child button{width:24px;height:24px;border-radius:50%;border:0;background:var(--surface-2);color:var(--muted)}.radar-row.shadow-card{padding-top:38px!important}.radar-row.shadow-card::before{left:10px;right:auto}
+
+.alert-budget{border-left:5px solid var(--amber)}.message-filter-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.message-filter-row .seg{min-width:0}.message-filter-row>.toggle{white-space:nowrap}
+.api-card pre{white-space:pre-wrap;word-break:break-word;background:#0c1421;color:#dce8f8;border-radius:14px;padding:12px;font:9px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto}.api-running{animation:apiPulse .65s ease}@keyframes apiPulse{50%{opacity:.42;transform:scale(.99)}}
+
+html[data-detail="beginner"] .reason-code,html[data-detail="beginner"] .authority,html[data-detail="beginner"] .professional-only,html[data-detail="standard"] .reason-code,html[data-detail="standard"] .professional-only{display:none!important}
+html[data-detail="beginner"] .data-drawer{display:none}html[data-detail="beginner"] .why-drawer summary{font-size:10px}html[data-detail="institutional"] .institutional-only{display:block!important}
+
+@media(max-width:360px){.quick-grid{grid-template-columns:1fr}.density-labels button{font-size:7px}.radar-head,.radar-row{grid-template-columns:1fr .8fr 1fr}.owner-strip{grid-template-columns:1fr}.owner-strip>.badge{justify-self:start}.message-filter-row{grid-template-columns:1fr}.message-filter-row>.toggle{justify-self:start}}
+</style>
+  <script>(() => {
+  'use strict';
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const APP_VERSION = '4.6.0';
+  const STORAGE_KEY = 'niud-v46-settings';
+  const NOW = Date.now();
+
+  const DATASETS = {
+    market: [
+      { level: 'T0', label: '交易所规则原文' },
+      { level: 'T1', label: 'trade_cal' },
+      { level: 'T2', label: 'rt_idx_k' },
+      { level: 'T5', label: 'MarketRegime S2' }
+    ],
+    morning: [
+      { level: 'T1', label: 'stk_auction' },
+      { level: 'T2', label: 'rt_min' },
+      { level: 'T2', label: 'rt_k' },
+      { level: 'T4', label: 'anns_d' },
+      { level: 'T5', label: '早选预测模型' }
+    ],
+    tail: [
+      { level: 'T2', label: 'rt_min' },
+      { level: 'T2', label: 'rt_sw_k' },
+      { level: 'T3', label: '日内资金代理' },
+      { level: 'T5', label: 'BAR_FILL_PROXY' }
+    ],
+    medium: [
+      { level: 'T2', label: '日周月行情' },
+      { level: 'T2', label: '财务报表' },
+      { level: 'T3', label: '筹码分布' },
+      { level: 'T4', label: '机构调研' },
+      { level: 'T5', label: '中长反转模型' }
+    ],
+    regulatory: [
+      { level: 'T0', label: '交易所原始公告' },
+      { level: 'T1', label: 'stk_shock' },
+      { level: 'T1', label: 'stk_high_shock' },
+      { level: 'T1', label: 'stk_alert' }
+    ]
+  };
+
+  const EVIDENCE = {
+    '600519': {
+      positive: ['竞价量比1.46，开盘承接稳定', '行业相对强度位于前18%', '5日概率校准后正收益概率72%'],
+      negative: ['当前价格距模型公平上限较近', '食品饮料板块集中度已占账户18%'],
+      uncertainty: ['资金流向为T3衍生数据，扣减6bps', '新闻覆盖96%，扣减3bps', '行业热度稳定性扣减2bps']
+    },
+    '601318': {
+      positive: ['尾盘价格保持VWAP上方', '金融行业下午相对强度转正', '次日高开溢价历史分布稳定'],
+      negative: ['Level 2未接入，无法估计真实队列位置', '尾盘执行窗口较窄'],
+      uncertainty: ['BAR_FILL_PROXY替代盘口模型，扣减13bps', '资金分类为供应商衍生，扣减5bps']
+    },
+    '010823': {
+      positive: ['基本面未出现结构性恶化', '估值位于近五年24%分位', '下跌动量衰减且20日线拐头'],
+      negative: ['流动性低于大盘蓝筹', '预计现金占用9个交易日'],
+      uncertainty: ['筹码分布模型稳定性扣减7bps', '机构调研文本覆盖扣减4bps']
+    },
+    '600036': {
+      positive: ['现金流质量稳定', '行业相对回撤已修复', '估值处于历史低位'],
+      negative: ['缺失2项非关键衍生特征', '反转确认度仍低于主候选'],
+      uncertainty: ['缺失特征费用8bps', '资金流覆盖费用5bps']
+    }
+  };
+
+  const STOCKS = {
+    '600519': { name: '贵州茅台', sector: '食品饮料', price: 1486.55, chg: 1.82, score: 84, p5: 72, p10: 75, p15: 76, buy: 1418.20, limit: 1421.60, stop: 1402.00, dv: 82, lcb: 21, regulatory: 'NORMAL', license: 'RESEARCH_ONLY', missing: 0, allocation: 8.0 },
+    '601318': { name: '中国平安', sector: '非银金融', price: 59.67, chg: 2.14, score: 79, p5: 66, p10: 71, p15: 73, buy: 58.42, limit: 58.56, stop: 56.88, dv: 61, lcb: 14, regulatory: 'NORMAL', license: 'RESEARCH_ONLY', missing: 1, allocation: 6.5 },
+    '000858': { name: '五粮液', sector: '食品饮料', price: 128.32, chg: -0.62, score: 76, p5: 66, p10: 69, p15: 70, buy: 128.60, limit: 129.10, stop: 123.40, dv: 38, lcb: -8, regulatory: 'ABNORMAL_VOLATILITY', license: 'RESEARCH_ONLY', missing: 0, allocation: 0 },
+    '600036': { name: '招商银行', sector: '银行', price: 46.32, chg: -1.07, score: 77, p5: 62, p10: 69, p15: 72, buy: 46.28, limit: 46.45, stop: 44.80, dv: 42, lcb: 9, regulatory: 'NORMAL', license: 'RESEARCH_ONLY', missing: 2, allocation: 7.0 },
+    '010823': { name: '示例科技', sector: '电子元件', price: 10.46, chg: 4.70, score: 82, p5: 69, p10: 74, p15: 77, buy: 10.12, limit: 10.28, stop: 9.58, dv: 76, lcb: 18, regulatory: 'NORMAL', license: 'RESEARCH_ONLY', missing: 0, allocation: 10.0 }
+  };
+
+  const REGULATORY_EVENTS = [
+    { code: '000858', name: '五粮液', eventType: 'ABNORMAL_VOLATILITY', startDate: '2026-08-05 09:31', endDate: '持续中', reason: '连续三个交易日收盘价格涨幅偏离值累计达到交易所披露标准。', source: '深交所公告 / Tushare stk_shock', sourceLevel: 'T0+T1', affected: ['早选：阻断新开仓', '尾选：阻断新开仓', '中长：MVP阶段阻断', '已有持仓：允许减仓、止损和复核'], codeReason: 'BLOCKED_ABNORMAL_VOLATILITY', severity: 'warning' },
+    { code: '002122', name: '汇洲智能', eventType: 'EXCHANGE_ALERT_ACTIVE', startDate: '2026-08-04', endDate: '2026-08-08', reason: '交易所重点提示证券活动期。', source: '交易所重点提示 / Tushare stk_alert', sourceLevel: 'T0+T1', affected: ['全部策略：阻断新开仓', '已有持仓：仅允许风险收缩'], codeReason: 'BLOCKED_EXCHANGE_ALERT_ACTIVE', severity: 'danger' },
+    { code: '600519', name: '贵州茅台', eventType: 'NORMAL', startDate: '-', endDate: '-', reason: '未发现活动中的异常波动、严重异常波动或重点提示状态。', source: '结构化监管事件交叉核验', sourceLevel: 'T1', affected: ['早选：允许', '尾选：允许', '中长：允许'], codeReason: '', severity: 'normal' }
+  ];
+
+  const POSITIONS = [
+    { code: '010823', strategy: '中长反转', day: '第6日', shares: 12000, cost: 9.99 },
+    { code: '600519', strategy: '早选趋势', day: '第3日', shares: 500, cost: 1418.20 },
+    { code: '601318', strategy: '尾选T+1', day: '次日', shares: 2500, cost: 58.42 }
+  ];
+
+
+  const PLATFORM_MODES = {
+    tool: { label: '公众研究工具模式', short: '工具模式', tone: 'blue', advice: false, desc: '展示市场事实、监管闸门、模型证据与风险结构，不向公众提供个性化具体买卖建议。' },
+    partnerPreview: { label: '持牌投顾合作模式 · 交互预览', short: '持牌合作预览', tone: 'purple', advice: true, desc: '仅用于验证未来与持牌机构合作后的产品流程，不代表当前已取得业务资格。' },
+    institutional: { label: '机构内部研究模式', short: '机构研究', tone: 'green', advice: false, desc: '面向机构内部研究和风控使用，需独立合同、权限、数据许可和合规审批。' }
+  };
+
+  const RISK_PROFILES = {
+    unknown: { label: '未测评', tone: 'amber', maxAllocation: 0, detail: '尚未完成产品内风险偏好引导。' },
+    conservative: { label: '保守型', tone: 'green', maxAllocation: 4, detail: '更关注本金波动、证据完整性与退出风险。' },
+    balanced: { label: '稳健型', tone: 'blue', maxAllocation: 8, detail: '在可控回撤下接受中等波动和分散持仓。' },
+    active: { label: '积极型', tone: 'purple', maxAllocation: 12, detail: '能够理解并承受较高波动，但仍受账户风险硬上限约束。' }
+  };
+
+  const DETAIL_LEVELS = {
+    beginner: { index:0, label:'新手引导', short:'新手层', tone:'green', desc:'只展示人话结论、关键风险和下一步动作，隐藏内部术语。' },
+    standard: { index:1, label:'标准', short:'标准层', tone:'blue', desc:'展示结论、第一层证据和数据来源摘要，适合有经验的普通投资者。' },
+    professional: { index:2, label:'专业', short:'专业层', tone:'purple', desc:'展示DecisionValue、LCB、T0-T5、原因码和完整审计细节。' },
+    institutional: { index:3, label:'机构', short:'机构层', tone:'amber', desc:'展示完整研究数据、模型治理、API字段、组合风控和机构审计能力。' }
+  };
+
+  const RISK_QUESTIONS = [
+    { q: '单笔决策出现浮亏时，你最多能接受多大波动？', options: [['不超过3%',0],['约5%至8%',1],['可接受10%以上',2]] },
+    { q: '你的A股交易经验大约是？', options: [['不足1年',0],['1至3年',1],['3年以上',2]] },
+    { q: '你更关注哪种目标？', options: [['本金稳定和少犯错',0],['收益与回撤平衡',1],['愿意承担波动争取更高收益',2]] },
+    { q: '持仓短期下跌8%时，你通常会？', options: [['明显焦虑并希望立即退出',0],['核对逻辑和风险线后决定',1],['可继续等待或分批调整',2]] },
+    { q: '你如何理解本产品和荐股的区别？', type:'ack', options: [
+      ['我理解：本产品提供研究、事实与风险信息，不替代持牌投顾或我的独立判断',1,true],
+      ['我认为系统会直接告诉我买什么并保证收益',0,false],
+      ['我还不确定，需要先阅读产品边界',0,false]
+    ] }
+  ];
+
+  const PERFORMANCE_DATA = {
+    research: {
+      '30': { morning:[18,'55.6%','+1.10%','-3.20%',15], tail:[16,'56.3%','+0.72%','-2.60%',13], medium:[12,'58.3%','+2.05%','-4.10%',10] },
+      '90': { morning:[52,'57.7%','+1.36%','-6.80%',41], tail:[47,'55.3%','+0.81%','-5.90%',37], medium:[31,'61.3%','+2.42%','-7.40%',26] },
+      '180': { morning:[98,'56.1%','+1.21%','-9.60%',74], tail:[89,'54.0%','+0.67%','-8.80%',68], medium:[58,'60.3%','+2.18%','-10.20%',45] }
+    },
+    shadow: {
+      '30': { morning:[7,'57.1%','+0.92%','-1.80%',6], tail:[5,'60.0%','+0.54%','-1.20%',4], medium:[4,'50.0%','+1.30%','-2.50%',4] },
+      '90': { morning:[14,'57.1%','+1.02%','-3.90%',12], tail:[11,'54.5%','+0.48%','-3.10%',9], medium:[8,'62.5%','+1.76%','-4.20%',7] },
+      '180': { morning:[14,'57.1%','+1.02%','-3.90%',12], tail:[11,'54.5%','+0.48%','-3.10%',9], medium:[8,'62.5%','+1.76%','-4.20%',7] }
+    }
+  };
+
+  const MESSAGE_FEED = [
+    { id:1, code:'000858', level:'P0', type:'regulatory', title:'五粮液出现异常波动记录', body:'三策略已阻断新开仓，已有影子持仓只保留风险复核动作。', time:'刚刚', tone:'red', action:'regulatory', eventIndex:0 },
+    { id:2, code:'010823', level:'P0', type:'position', title:'示例科技接近EffectiveStop', body:'当前价距离影子持仓风险线不足1.8%，建议立即核对原始持仓和退出计划。', time:'8分钟前', tone:'amber', action:'position', index:0 },
+    { id:3, code:null, level:'P1', type:'daily', title:'今日收盘摘要：早选1只，尾选0只', body:'尾选未形成正的DecisionValue下界，系统没有为了给结果而降低标准。', time:'今天15:35', tone:'blue', action:'performance' },
+    { id:4, code:'600519', level:'P1', type:'position', title:'贵州茅台持有期进入第3日', body:'未触发监管阻断，风险线和继续持有证据已刷新。', time:'今天14:58', tone:'purple', action:'position', index:1 },
+    { id:5, code:null, level:'P2', type:'system', title:'竞价快照归档完成', body:'09:26至09:29四次快照完整，数据质量96/100。', time:'今天09:30', tone:'green', action:'data' }
+  ];
+
+
+  const DV_COMPONENTS = {
+    '600519': { expected:162, execution:37, tail:18, model:14, provider:11, final:82, lcb:21 },
+    '601318': { expected:137, execution:31, tail:16, model:16, provider:13, final:61, lcb:14 },
+    '010823': { expected:148, execution:24, tail:17, model:20, provider:11, final:76, lcb:18 },
+    '600036': { expected:119, execution:28, tail:17, model:19, provider:13, final:42, lcb:9 }
+  };
+
+  const ZERO_FILTER_GROUPS = [
+    { key:'price', title:'价格条件未通过', count:9, tone:'amber', reason:'候选价格高于模型允许的研究上限，继续追价会让净优势消失。', candidates:[
+      ['300750','宁德时代','价格超过研究上限2.7%','FILTER_PRICE_ABOVE_LIMIT'],
+      ['600809','山西汾酒','开盘跳空后风险收益不足','FILTER_PRICE_ABOVE_LIMIT'],
+      ['002594','比亚迪','执行成本侵蚀净优势','FILTER_EXECUTION_COST']
+    ]},
+    { key:'regulatory', title:'监管闸门阻断', count:2, tone:'red', reason:'交易所异常波动或重点提示期间，MVP默认暂停新开仓。', candidates:[
+      ['000858','五粮液','异常波动活动中','BLOCKED_ABNORMAL_VOLATILITY'],
+      ['002122','汇洲智能','重点提示证券活动期','BLOCKED_EXCHANGE_ALERT_ACTIVE']
+    ]},
+    { key:'dv', title:'保守优势不足', count:4, tone:'purple', reason:'点估计为正，但保守置信下界不高于0，无法证明扣除成本后仍有优势。', candidates:[
+      ['600887','伊利股份','保守下界 -3bps','BLOCKED_DECISION_VALUE_LCB_NON_POSITIVE'],
+      ['601888','中国中免','尾部风险费用过高','BLOCKED_TAIL_RISK'],
+      ['000333','美的集团','模型不确定性过高','BLOCKED_MODEL_UNCERTAINTY']
+    ]},
+    { key:'portfolio', title:'组合与现金约束', count:1, tone:'blue', reason:'候选本身合格，但行业集中度或保护现金要求不允许分配资金。', candidates:[
+      ['600036','招商银行','银行行业风险预算已占满','BLOCKED_PORTFOLIO_CONCENTRATION']
+    ]}
+  ];
+
+  const INSTITUTIONAL_CAPABILITIES = [
+    ['研究数据API','点时行情、财务、监管事件、特征血缘与质量分，按合同和许可范围输出。','API / S3 / Private Link'],
+    ['策略证据服务','概率分布、DecisionValue瀑布、原因码、模型版本与审计快照。','REST / Webhook'],
+    ['组合风控工作台','账户级风险闸门、行业集中度、现金预留和压力测试。','Workspace'],
+    ['模型治理中心','模型库存、验证状态、漂移、参数冻结、回滚和双人审批。','Governance'],
+    ['监管安全网','ST、异常波动、严重异常波动、重点提示和公告事件流。','Realtime Feed'],
+    ['企业级能力','SSO、RBAC、审计日志、私有部署评估、SLA和专属数据许可。','Enterprise']
+  ];
+
+  const saved = (() => {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+  })();
+
+  const normalizedPlan = saved.plan ? (['trial','safety','pro'].includes(saved.plan) ? 'pro' : saved.plan) : 'pro';
+  const legacyDetail = saved.detailMode === 'simple' ? 'standard' : saved.detailMode;
+
+  const state = {
+    tab: 'home', route: null, routeData: null, history: [],
+    theme: saved.theme || 'system', font: saved.font || 'standard',
+    detailMode: DETAIL_LEVELS[legacyDetail] ? legacyDetail : 'institutional',
+    onboardingSeen: Boolean(saved.onboardingSeen),
+    boundariesAccepted: Boolean(saved.boundariesAccepted),
+    boundariesAcceptedAt: saved.boundariesAcceptedAt || null,
+    boundaryCheckbox: false,
+    demoRole: 'OWNER_FULL_ACCESS',
+    platformMode: saved.platformMode || 'institutional',
+    riskProfile: saved.riskProfile || 'unknown', riskAnswers: [], riskStep: 0,
+    riskUnderstandingConfirmedAt: saved.riskUnderstandingConfirmedAt || null,
+    plan: normalizedPlan,
+    strategyVisited: Boolean(saved.strategyVisited), forceFullHome: Boolean(saved.forceFullHome),
+    publicQuantPolicy: saved.publicQuantPolicy || 'numericPreview',
+    performanceWindow: '90', performanceSource: 'research',
+    messageTab: 'all', messageFollowedOnly: Boolean(saved.messageFollowedOnly), unreadMessages: saved.unreadMessages ?? 3,
+    notificationPrefs: saved.notificationPrefs || { regulatory:true, daily:true, position:true, system:true },
+    p0BudgetUsed: saved.p0BudgetUsed ?? 2, p0BudgetLimit: 3,
+    safetyWatchlist: Array.isArray(saved.safetyWatchlist) && saved.safetyWatchlist.length ? saved.safetyWatchlist : ['000858','600519'],
+    radarWatchlist: Array.isArray(saved.radarWatchlist) && saved.radarWatchlist.length ? saved.radarWatchlist : ['000858','600519','601318','600036','010823'],
+    safetyRemovalReasons: Array.isArray(saved.safetyRemovalReasons) ? saved.safetyRemovalReasons : [],
+    morningMode: 'opportunity', tailMode: 'waiting', mediumMode: 'confirmed',
+    stockInput: '010823@9.99', stockCode: '010823', stockCost: 9.99, stockMode: 'held', stockTab: 'decision',
+    trackTab: 'positions',
+    accountMode: 'shadow',
+    shadowPositions: Array.isArray(saved.shadowPositions) && saved.shadowPositions.length ? saved.shadowPositions : POSITIONS.map(x=>({...x})),
+    layerOpenState: saved.layerOpenState || { account:false, market:false, evidence:false },
+    network: 'online',
+    noPositions: false,
+    dataTimestamp: NOW - 7200,
+    morningExpiry: NOW + 96_000,
+    tailExpiry: NOW + 210_000,
+    mediumVisible: 5,
+    honestyReportImage: null,
+    termModal: false
+  };
+
+  const detailLevel = () => DETAIL_LEVELS[state.detailMode] || DETAIL_LEVELS.standard;
+  const detailAtLeast = (level) => detailLevel().index >= DETAIL_LEVELS[level].index;
+  const isBeginnerDetail = () => state.detailMode === 'beginner';
+  const isProDetail = () => detailAtLeast('professional');
+  const isInstitutionalDetail = () => state.detailMode === 'institutional';
+  const authorityNames = { T0:'权威原文', T1:'权威镜像', T2:'市场数据', T3:'衍生指标', T4:'文本资料', T5:'AI研究' };
+  const authorityBadge = (level) => {
+    if (!isProDetail()) return '';
+    const icon = level === 'T0' ? '🏛' : level === 'T3' ? '⚠' : level === 'T5' ? 'AI' : '';
+    return `<span class="authority ${level.toLowerCase()}">${icon ? `${icon} ` : ''}${level}</span>`;
+  };
+  const badge = (text, tone = '') => `<span class="badge ${tone}">${text}</span>`;
+  const kv = (label, value, tone = '') => `<div class="kv"><span>${label}</span><b class="${tone}">${value}</b></div>`;
+  const gate = (title, desc, status = 'ok') => `<div class="gate"><i class="gate-icon ${status === 'warn' ? 'warn' : status === 'block' ? 'block' : ''}">${status === 'ok' ? '✓' : status === 'warn' ? '!' : '×'}</i><div><b>${title}</b><span>${desc}</span></div></div>`;
+  const section = (title, route = '') => `<div class="section"><h2>${title}</h2>${route ? `<button data-route="${route}">查看</button>` : ''}</div>`;
+  const subhead = (title) => `<div class="subhead"><button data-action="back" aria-label="返回">‹</button><h1>${title}</h1><span></span></div>`;
+  const formatPct = (value) => `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`;
+  const trendClass = (value) => value >= 0 ? 'rise' : 'fall';
+  const regulatoryLabel = (value) => ({NORMAL:'当前无监管阻断',ABNORMAL_VOLATILITY:'异常波动',SEVERE_ABNORMAL_VOLATILITY:'严重异常波动',EXCHANGE_ALERT_ACTIVE:'重点提示证券'}[value] || value);
+  const modeText = (simple, professional) => isProDetail() ? professional : simple;
+
+  function persist() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        theme: state.theme, font: state.font, detailMode: state.detailMode, onboardingSeen: state.onboardingSeen,
+        boundariesAccepted: state.boundariesAccepted, boundariesAcceptedAt: state.boundariesAcceptedAt,
+        platformMode: state.platformMode, riskProfile: state.riskProfile, riskUnderstandingConfirmedAt: state.riskUnderstandingConfirmedAt,
+        plan: state.plan, strategyVisited: state.strategyVisited, forceFullHome: state.forceFullHome,
+        publicQuantPolicy: state.publicQuantPolicy, unreadMessages: state.unreadMessages,
+        messageFollowedOnly: state.messageFollowedOnly, notificationPrefs: state.notificationPrefs,
+        p0BudgetUsed: state.p0BudgetUsed, shadowPositions: state.shadowPositions,
+        safetyWatchlist: state.safetyWatchlist, radarWatchlist: state.radarWatchlist,
+        safetyRemovalReasons: state.safetyRemovalReasons, layerOpenState: state.layerOpenState
+      }));
+    } catch (error) {
+      console.warn('[NiuD.V4.6] local settings are unavailable; continuing with in-memory settings.');
+    }
+  }
+
+  function applySettings() {
+    const systemDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    const dark = state.theme === 'dark' || (state.theme === 'system' && systemDark);
+    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+    document.documentElement.dataset.font = state.font;
+    document.documentElement.dataset.detail = state.detailMode;
+    persist();
+  }
+
+  function relativeTime(ts) {
+    const sec = Math.max(0, Math.floor((Date.now() - ts) / 1000));
+    if (sec < 10) return '刚刚更新';
+    if (sec < 60) return `${sec}秒前更新`;
+    const min = Math.floor(sec / 60);
+    if (min < 60) return `${min}分钟前更新`;
+    return `${Math.floor(min / 60)}小时前更新`;
+  }
+
+  function countdownText(ts) {
+    const total = Math.max(0, Math.floor((ts - Date.now()) / 1000));
+    if (total <= 0) return '本次计划已失效';
+    const min = Math.floor(total / 60);
+    const sec = total % 60;
+    return `距失效 ${min > 0 ? `${min}分` : ''}${String(sec).padStart(2, '0')}秒`;
+  }
+
+  function freshnessClass(ts, staleAfter = 30) {
+    return (Date.now() - ts) / 1000 > staleAfter ? 'stale' : 'fresh';
+  }
+
+
+  function platform() { return PLATFORM_MODES[state.platformMode] || PLATFORM_MODES.tool; }
+  function adviceAllowed() { return state.platformMode === 'partnerPreview'; }
+  function publicQuantNumbersAllowed() { return detailAtLeast('professional') && (isInstitutionalDetail() || state.platformMode !== 'tool' || state.publicQuantPolicy === 'numericPreview'); }
+  function hasFullResearchAccess() { return state.demoRole === 'OWNER_FULL_ACCESS' || state.plan === 'pro'; }
+  function quantProbability(stock, strategy='morning') {
+    const value = strategy === 'tail' ? stock.p5 - 2 : stock.p5;
+    if (publicQuantNumbersAllowed()) return `${value}%`;
+    return value >= 70 ? '较高' : value >= 62 ? '中等偏高' : '一般';
+  }
+  function quantDv(stock) {
+    if (publicQuantNumbersAllowed()) return `+${stock.dv}bps`;
+    return stock.dv >= 70 ? '较强' : stock.dv >= 45 ? '中等' : '偏弱';
+  }
+  function quantLcb(stock) {
+    if (publicQuantNumbersAllowed()) return `${stock.lcb >= 0 ? '+' : ''}${stock.lcb}bps`;
+    return stock.lcb > 15 ? '保守情景仍为正' : stock.lcb > 0 ? '小幅为正' : '未通过';
+  }
+  function riskProfile() { return RISK_PROFILES[state.riskProfile] || RISK_PROFILES.unknown; }
+  function riskMatch(stock) {
+    const p = riskProfile();
+    if (state.riskProfile === 'unknown') return { label:'待测评', tone:'amber', mismatch:true };
+    return stock.allocation <= p.maxAllocation ? { label:`匹配${p.label}`, tone:'green', mismatch:false } : { label:`高于${p.label}偏好`, tone:'amber', mismatch:true };
+  }
+  function platformStrip() {
+    const p=platform();
+    return `<div class="platform-strip ${state.platformMode}"><div><b>${p.label}</b><span>${p.desc}</span></div>${badge(adviceAllowed()?'资格合作预览':'具体建议已锁定',adviceAllowed()?'purple':'amber')}</div>`;
+  }
+  function lockedValue(label='需持牌服务') { return `<button class="locked-value" data-action="locked-content" type="button">🔒 ${label}</button>`; }
+  function planBadge() {
+    const labels={free:'免费版',pro:'Pro研究版'};
+    return badge(labels[state.plan]||'免费版',state.plan==='free'?'blue':'purple');
+  }
+  function featureLock(title,desc,route='subscription') { return `<div class="feature-lock"><div class="lock-mark">🔒</div><div class="grow"><b>${title}</b><span>${desc}</span></div><button data-route="${route}">查看方案</button></div>`; }
+  function riskNotice(stock) {
+    const m=riskMatch(stock);
+    if(state.riskProfile==='unknown') return `<div class="notice amber-strong">尚未完成轻量风险偏好引导。该引导仅用于界面个性化，不能替代持牌机构的正式投资者适当性评估。</div>`;
+    return `<div class="notice ${m.mismatch?'':'blue'}"><b>${m.label}</b><br>你的产品内偏好上限为${riskProfile().maxAllocation}%，当前策略参考仓位为${stock.allocation}%。</div>`;
+  }
+
+  function sourceTags(items) {
+    if (!isProDetail()) {
+      const unique=[...new Set(items.map(item=>authorityNames[item.level] || '数据来源'))];
+      return unique.map(label=>`<span class="source-tag">${label}</span>`).join('');
+    }
+    return items.map(item => `<span class="source-tag">${authorityBadge(item.level)} ${item.label}</span>`).join('');
+  }
+
+  function evidenceChain(code) {
+    const e = EVIDENCE[code] || EVIDENCE['600519'];
+    const simple = !isProDetail();
+    const titleMap = simple ? ['支持判断','需要留意','数据可信度'] : ['正向证据','限制因素','不确定性扣分'];
+    const rows = (title, items, tone, previewOnly=false) => `<div class="evidence-group"><div class="evidence-title ${tone}">${title}</div>${items.map((x, i) => `<div class="evidence-row ${previewOnly && i>0 ? 'evidence-locked-row' : ''}"><span>${x}</span><i style="--evidence:${Math.max(34, 88 - i * 17)}%"></i></div>`).join('')}</div>`;
+    if(!hasFullResearchAccess()) {
+      return `<details class="why-drawer"><summary>${simple?'为什么系统这样判断？':'为什么是这个结论？'} ▾</summary>${rows(titleMap[0],[e.positive[0]],'green')}${featureLock('继续查看完整证据链','Pro研究版可查看其余支持因素、限制项与不确定性费用。')}</details>`;
+    }
+    return `<details class="why-drawer" ${state.riskProfile==='conservative'?'open':''}><summary>${simple?'为什么系统这样判断？':'为什么是这个结论？'} ▾</summary>${rows(titleMap[0], e.positive, 'green')}${rows(titleMap[1], e.negative, 'amber')}${rows(titleMap[2], e.uncertainty, 'red')}</details>`;
+  }
+
+  function dataDrawer(strategy, stock, reasonCode = '') {
+    const sets = DATASETS[strategy] || DATASETS.market;
+    const stale = state.network === 'stale';
+    const dataTs = stale ? Date.now() - 185_000 : state.dataTimestamp;
+    if(!isProDetail()) return `<details class="data-drawer"><summary>数据从哪里来？ ▾</summary><div class="drawer-grid"><div><label>更新时间</label><b data-relative-time="${dataTs}" class="${freshnessClass(dataTs,60)}">${relativeTime(dataTs)}</b></div><div><label>数据健康</label><b class="green">96/100</b></div><div><label>监管检查</label><b class="${stock.regulatory==='NORMAL'?'green':'red'}">${stock.regulatory==='NORMAL'?'当前无阻断':'存在阻断'}</b></div><div><label>缺失信息</label><b>${stock.missing}项</b></div></div><div class="dataset-list">${sourceTags(sets)}</div></details>`;
+    return `<details class="data-drawer"><summary>数据来源与审计信息 ▾</summary><div class="drawer-grid"><div><label>数据快照</label><b data-relative-time="${dataTs}" class="${freshnessClass(dataTs,60)}">${relativeTime(dataTs)}</b></div><div><label>实时数据龄</label><b class="${freshnessClass(dataTs,60)}">${Math.max(2,Math.floor((Date.now()-dataTs)/1000))}秒</b></div><div><label>监管状态</label><b class="${stock.regulatory==='NORMAL'?'green':'red'}">${stock.regulatory}</b></div><div><label>风险警示</label><b>普通主板</b></div><div><label>公告覆盖</label><b>100% · 0条未解析</b></div><div><label>新闻覆盖</label><b>96%</b></div><div><label>财务版本</label><b>2026Q2 PIT</b></div><div><label>衍生特征</label><b>17项</b></div><div><label>衍生不确定性费</label><b class="amber">11bps</b></div><div><label>规则版本</label><b>CN-A-2026.07</b></div><div><label>数据质量分</label><b class="green">96/100</b></div><div><label>许可状态</label><b class="amber">RESEARCH_ONLY</b></div><div><label>缺失特征</label><b>${stock.missing}项</b></div><div><label>原因码</label><b class="${reasonCode?'red':'green'}">${reasonCode||'NONE'}</b></div></div><div class="dataset-list">${sourceTags(sets)}</div></details>`;
+  }
+
+
+  function safetyEventFor(code) { return REGULATORY_EVENTS.find(e=>e.code===code) || {code,name:(STOCKS[code]?.name||'自选证券'),eventType:'NORMAL',startDate:'-',endDate:'-',reason:'当前未发现活动中的结构化监管事件。',source:'监管事件交叉核验',sourceLevel:'T1',affected:['持仓安全网：持续监测'],codeReason:'',severity:'normal'}; }
+  function safetyReliability() {
+    const map={
+      online:{healthy:true,tone:'green',label:'监测正常',summary:'监测链路正常',detail:'结构化监管数据最近一次检查成功。'},
+      offline:{healthy:false,tone:'red',label:'监测中断',summary:'网络中断，当前状态未知',detail:'无法连接监测服务。页面中任何“上次无事件”都不能被理解为当前安全。'},
+      provider:{healthy:false,tone:'amber',label:'上游异常',summary:'数据源异常，监测能力下降',detail:'上游结构化数据不可用，系统已停止输出新的安全结论。'},
+      stale:{healthy:false,tone:'red',label:'快照过期',summary:'数据快照陈旧，当前状态未知',detail:'最后有效快照已超过时效阈值，必须等待新数据恢复后重新确认。'}
+    };
+    return map[state.network]||map.online;
+  }
+  function safetyStatus() {
+    const events=state.safetyWatchlist.map(safetyEventFor);
+    const danger=events.filter(e=>e.severity!=='normal').length;
+    return {count:events.length,danger,events};
+  }
+  function safetyStrip() {
+    const ss=safetyStatus();
+    const r=safetyReliability();
+    const cls=!r.healthy?'degraded':ss.danger?'has-risk':'';
+    const icon=!r.healthy?'?':ss.danger?'!':'盾';
+    const text=!r.healthy?r.summary:(ss.danger?`${ss.danger}只出现监管风险`:'当前未发现活动监管事件');
+    const tone=!r.healthy?r.tone:(ss.danger?'red':'green');
+    return `<section class="safety-strip ${cls}" data-route="safety-net"><div class="safety-icon">${icon}</div><div class="grow"><b>持仓安全网</b><span>${ss.count}只监测中 · ${text} · 无需连接券商</span></div>${badge(!r.healthy?'能力下降':ss.danger?'立即查看':'运行中',tone)}<span class="chev">›</span></section>`;
+  }
+  function liveExpiry(strategy, compact = false) {
+    const ts = strategy === 'tail' ? state.tailExpiry : state.morningExpiry;
+    const expired = Date.now() >= ts;
+    return `<span class="live-countdown ${expired ? 'expired' : ''}" data-countdown="${ts}" data-strategy="${strategy}">${compact ? '' : '⏱ '}${countdownText(ts)}</span>`;
+  }
+
+  function decisionCard(code, strategy, options = {}) {
+    const stock = STOCKS[code];
+    const expired = options.expired || ((strategy === 'morning' || strategy === 'tail') && Date.now() >= (strategy === 'tail' ? state.tailExpiry : state.morningExpiry));
+    const blocked = options.blocked || stock.regulatory !== 'NORMAL' || stock.lcb <= 0;
+    if (blocked) return blockedCard(stock, strategy, options.reasonCode || (stock.regulatory !== 'NORMAL' ? 'BLOCKED_ABNORMAL_VOLATILITY' : 'BLOCKED_DECISION_VALUE_LCB_NON_POSITIVE'));
+    const labels = { morning: '早选1至5日', tail: '尾选T+1', medium: '中长反转' };
+    const fit=riskMatch(stock);
+    const fields=adviceAllowed()
+      ? `<div class="grid3"><div class="cell"><label>建议买入</label><b>${stock.buy}</b></div><div class="cell"><label>最终上限</label><b>${stock.limit}</b></div><div class="cell"><label>建议仓位</label><b>${stock.allocation}%</b></div></div>`
+      : `<div class="grid3 locked-grid"><div class="cell"><label>价格参考</label><b>${lockedValue('公众工具模式')}</b></div><div class="cell"><label>执行上限</label><b>${lockedValue('需持牌合作')}</b></div><div class="cell"><label>个性化仓位</label><b>${lockedValue('需适当性匹配')}</b></div></div>`;
+    const action=adviceAllowed()
+      ? `<button class="btn equal-confirm" data-action="execution-card" data-code="${code}" data-strategy="${strategy}" ${expired ? 'disabled' : ''}>${expired ? '计划已失效' : '审慎执行'}</button>`
+      : `<button class="btn equal-confirm" data-route="qualification">查看资质与服务边界</button>`;
+    return `<article class="card strategy-card ${expired ? 'expired-card' : ''}" data-expiry-card="${strategy}">
+      <div class="row"><div><div class="stock">${stock.name}</div><div class="code">${code} · ${stock.sector} · ${labels[strategy]}</div></div>${badge(`${stock.score}分`, 'green')}</div>
+      <div class="tags">${isBeginnerDetail()?badge(stock.lcb>0?'结论：支持继续研究':'结论：暂不支持',stock.lcb>0?'green':'red'):`${badge(`正收益可能性 ${quantProbability(stock,strategy)}`, 'green')}${badge(`${isProDetail()?'DecisionValue':'净优势'} ${quantDv(stock)}`, 'blue')}${badge(`${isProDetail()?'LCB':'保守判断'} ${quantLcb(stock)}`, 'purple')}`}${badge(fit.label,fit.tone)}${planBadge()}</div>
+      ${strategy !== 'medium' ? liveExpiry(strategy) : ''}
+      ${fields}
+      ${riskNotice(stock)}
+      ${evidenceChain(code)}
+      ${dataDrawer(strategy, stock)}
+      <div class="actions"><button class="btn secondary" data-route="decision-detail" data-code="${code}" data-strategy="${strategy}">核对完整依据</button>${action}</div>
+    </article>`;
+  }
+  function blockedCard(stock, strategy, reasonCode) {
+    const human=reasonCode.includes('ABNORMAL')?'交易所已披露异常波动，系统暂停新开仓':reasonCode.includes('STALE')?'实时数据已陈旧，无法安全判断':reasonCode.includes('LCB')?'保守情况下优势不足':'硬性安全条件未通过';
+    return `<article class="card block-card"><div class="row"><div class="block-icon">⛔</div><div class="grow"><div class="title">${stock.name}：暂停新开仓</div><div class="sub">${human}</div></div>${badge('已阻断','red')}</div>${isProDetail()?`<div class="reason-code">${reasonCode}</div>`:''}${kv('监管状态',stock.regulatory,stock.regulatory==='NORMAL'?'green':'red')}${kv('生效区间',stock.regulatory==='NORMAL'?'-':'09:31 · 持续中')}${kv('已有持仓仍可','减仓 / 止损 / 复核')}${dataDrawer(strategy,stock,reasonCode)}<div class="actions"><button class="btn secondary full" data-route="regulatory" data-code="${Object.keys(STOCKS).find(k=>STOCKS[k]===stock)||'000858'}">查看监管依据</button></div></article>`;
+  }
+
+  function strategySummary(icon, name, desc, metric, dv, risk, tab, authority) {
+    const metricDisplay=publicQuantNumbersAllowed()?metric:(name.includes('早选')?'研究信号较强':name.includes('尾选')?'等待正式窗口':'确认层存在候选');
+    const dvDisplay=publicQuantNumbersAllowed()?dv:(name.includes('尾选')?'代理模型待确认':'净优势为正');
+    return `<article class="card strategy-card" data-tab="${tab}"><div class="row"><div><div class="title">${icon} ${name}</div><div class="sub">${desc}</div></div><span class="chev">›</span></div><div class="stats"><div><label>核心指标</label><b>${metricDisplay}</b></div><div><label>${isProDetail()?'DecisionValue':'净决策优势'}</label><b>${dvDisplay}</b></div><div><label>风险占用</label><b>${risk}</b></div></div>${isProDetail()?`<div class="authority-row" style="margin-top:10px">${authority.map(authorityBadge).join('')}</div>`:''}</article>`;
+  }
+  function topSystemAlert() {
+    if (state.network === 'offline') return `<div class="system-alert danger"><b>网络连接中断</b><span>本地页面可用，但禁止生成新决策。请检查网络后重试。</span><button data-action="scenario" data-scenario="online">重新连接</button></div>`;
+    if (state.network === 'provider') return `<div class="system-alert warning"><b>Tushare数据源异常</b><span>这不是“今日无候选”。策略因外部数据不可用而阻断。</span><button data-route="data">查看数据源</button></div>`;
+    if (state.network === 'stale') return `<div class="system-alert danger"><b>实时数据已陈旧</b><span>快照超过许可阈值，早选和尾选停止新开仓。</span><button data-action="scenario" data-scenario="online">恢复演示</button></div>`;
+    return '';
+  }
+
+  function densityStrip() {
+    const d=detailLevel();
+    return `<button class="density-strip ${d.tone}" data-route="detail-mode"><span>演示权限 · OWNER_FULL_ACCESS</span><b>你现在看到的是${d.label}信息层</b><small>${d.desc}</small></button>`;
+  }
+
+  function ownerAccessStrip() {
+    return `<div class="owner-strip"><div><b>原型负责人完整权限</b><span>完整数据、机构层、API示例与法律评审状态均可查看；切换信息层只改变呈现，不删除底层数据。</span></div>${badge('FULL DATA','purple')}</div>`;
+  }
+
+  function layerOpen(key) {
+    if (state.layerOpenState[key] === true) return 'open';
+    if (state.layerOpenState[key] === false) return '';
+    return isProDetail() ? 'open' : '';
+  }
+
+  function shadowDisclosure(text='影子持仓 · 非真实收益') {
+    return `<span class="shadow-stamp">SHADOW · ${text}</span>`;
+  }
+
+  function renderHome() {
+    const marketTitle=isInstitutionalDetail()?'S2 共振 · 机构全量':isProDetail()?'S2 共振':isBeginnerDetail()?'今天市场环境偏积极':'市场多板块同步偏强';
+    const safetyFirst=state.detailMode==='beginner'&&!state.strategyVisited&&!state.forceFullHome;
+    const hero=`<section class="hero"><div class="row"><div><div class="eyebrow">今日环境摘要 · <span data-relative-time="${state.dataTimestamp}">${relativeTime(state.dataTimestamp)}</span></div><div class="term-row"><h1>${marketTitle}</h1><button class="term-help" data-action="term-info" aria-label="市场状态说明">?</button></div></div><button class="btn glass" data-route="regulatory-list">监管</button></div><p>${isProDetail()?'指数、行业和市场广度方向一致，但每只证券仍需通过全部硬闸门。':'当前环境允许继续研究机会，但不代表任何股票都会上涨。'}</p><div class="hero-grid"><div><b>${safetyStatus().count}</b><span>安全网监测</span></div><div><b>${safetyStatus().danger}</b><span>活动风险</span></div><div><b>${state.unreadMessages}</b><span>待处理消息</span></div></div></section>`;
+    if(safetyFirst){
+      return `<div class="page safety-first-home">${ownerAccessStrip()}${densityStrip()}${topSystemAlert()}${safetyStrip()}${hero}<article class="card research-teaser"><div class="row"><div><div class="title">先理解产品，再看研究结论</div><div class="sub">新手层只展示安全、风险和下一步动作。完整模型、原因码和数据血缘仍保留在更高信息层。</div></div>${badge('安全网优先','green')}</div>${gate('这不是荐股','产品提供研究事实和风险信息，不保证收益')}${gate('今日机会摘要','市场允许研究，但任何证券都要逐只过闸门')}${gate('完整能力','早选、尾选、中长、个股、雷达和证据链可随时进入')}<button class="btn primary full" data-action="expand-research-home">展开完整研究首页</button></article><article class="card entry" data-tab="stock"><div class="entry-icon">＠</div><div class="grow"><div class="title">分析我已经持有的股票</div><div class="sub">无需记语法，进入个股页填写代码和成本价。</div></div><span class="chev">›</span></article><article class="card entry" data-route="watchlist-radar"><div class="entry-icon">◎</div><div class="grow"><div class="title">组合监管雷达</div><div class="sub">一屏查看多只股票的监管、净优势和保守下界。</div></div><span class="chev">›</span></article><footer class="risk-footer">投资有风险，入市需谨慎。当前为研究工具原型，不构成证券投资咨询服务。</footer></div>`;
+    }
+    const factLayers=`<div class="layer-stack compact-layer-stack"><details class="layer compact-layer shadow-card" data-layer-key="account" ${layerOpen('account')}><summary><div class="row"><span class="layer-number">1</span><div><div class="layer-title">账户与用户事实层</div><div class="layer-desc">影子持仓 · 32%仓位 · 未接券商API</div></div></div>${badge('SHADOW_ACCOUNT','purple')}</summary><div class="layer-body">${shadowDisclosure()}<div class="metrics"><div class="metric shadow-card"><label>影子可用现金</label><b>¥31.6万</b><small>用户手动记录</small></div><div class="metric shadow-card"><label>影子总仓位</label><b>32%</b><small>非券商事实</small></div></div></div></details><details class="layer compact-layer" data-layer-key="market" ${layerOpen('market')}><summary><div class="row"><span class="layer-number">2</span><div><div class="layer-title">市场与监管状态层</div><div class="layer-desc">${safetyReliability().healthy?`${safetyStatus().danger}只风险，监测链路正常`:'监测能力下降，状态未知'}</div></div></div>${badge(safetyReliability().healthy?'可用':'降级',safetyReliability().healthy?'green':'red')}</summary><div class="layer-body">${gate('持仓监管安全网',safetyReliability().healthy?`${safetyStatus().count}只监测，${safetyStatus().danger}只风险`:safetyReliability().summary,safetyReliability().healthy?(safetyStatus().danger?'warn':'ok'):'block')}${gate(isProDetail()?'RegulatoryEventGate':'监管安全检查','1只异常波动，1只重点提示','warn')}${gate('平台服务模式',platform().short,adviceAllowed()?'warn':'ok')}<button class="btn secondary full" data-route="regulatory-list">查看监管详情</button></div></details><details class="layer compact-layer" data-layer-key="evidence" ${layerOpen('evidence')}><summary><div class="row"><span class="layer-number">3</span><div><div class="layer-title">策略证据与历史验证层</div><div class="layer-desc">回测、影子组合与实盘严格分开</div></div></div>${badge(isProDetail()?'EDGE未证明':'尚无实盘证明','amber')}</summary><div class="layer-body">${gate('研究回测','有演示布局，非实盘业绩','warn')}${gate('影子组合','样本量不足，所有数字带SHADOW水印','warn')}${gate('可验证实盘','当前0条','block')}<button class="btn secondary full" data-route="performance">查看策略历史表现</button></div></details></div>`;
+    return `<div class="page">${ownerAccessStrip()}${densityStrip()}${topSystemAlert()}${platformStrip()}${safetyStrip()}${hero}<div class="quick-grid"><article class="card entry" data-tab="stock"><div class="entry-icon">＠</div><div class="grow"><div class="title">持仓@成本诊断</div><div class="sub">分析我已经持有的股票</div></div></article><article class="card entry" data-route="watchlist-radar"><div class="entry-icon">◎</div><div class="grow"><div class="title">组合雷达</div><div class="sub">多股一屏扫描</div></div></article></div>${factLayers}${section('策略研究')}${strategySummary('☀','早选1至5日','研究信号1只，具体执行受资质锁定','72%','+82bps','0.36%','morning',['T1','T2','T5'])}${strategySummary('◒','尾选T+1','14:25启动，当前等待','68%','代理+61bps','0.00%','tail',['T2','T3','T5'])}${strategySummary('↺','中长反转','确认2只，保护现金10万','74%','+76bps','0.52%','medium',['T2','T3','T4','T5'])}${section('今日研究卡')}${decisionCard('600519','morning')}${blockedCard(STOCKS['000858'],'morning','BLOCKED_ABNORMAL_VOLATILITY')}${section('每日回来看的理由')}<article class="card entry" data-route="messages"><div class="entry-icon">✦</div><div class="grow"><div class="title">今日收盘摘要与持仓安全网</div><div class="sub">监管实时提醒、每天0只原因、风险线与持有期复核集中交付。</div></div>${badge(`${state.unreadMessages}条未读`,'red')}</article><footer class="risk-footer">投资有风险，入市需谨慎。当前为研究工具原型，不构成证券投资咨询服务。</footer></div>`;
+  }
+  function segment(key, current, options) {
+    return `<div class="seg state-preview" aria-label="原型状态预览">${options.map(([value, label]) => `<button class="${current === value ? 'active' : ''}" data-mode="${key}:${value}">${label}</button>`).join('')}</div>`;
+  }
+
+  function statusCard(icon, title, desc, timer, action = '') {
+    return `<div class="card status"><div class="orb">${icon}</div><h2>${title}</h2><p>${desc}</p><span class="timer">${timer}</span>${action}</div>`;
+  }
+
+  function renderMorning() {
+    let c = `<div class="page">${topSystemAlert()}<div class="row"><div>${badge('早选1至5日','blue')}<h2>09:35至10:00</h2></div>${badge('数据完整98%','green')}</div>${segment('morningMode',state.morningMode,[['quiet','静默'],['running','运行'],['opportunity','有机会'],['none','0只'],['blocked','阻断'],['expired','过期'],['offline','断网']])}`;
+    if (state.morningMode === 'quiet') c += statusCard('☀','等待早选启动','09:25读取集合竞价，09:35进入正式买入窗口。','下一启动 09:25');
+    else if (state.morningMode === 'running') c += statusCard('◌','早选模型运行中','资格、竞价、预测、成本、监管和账户风险正在联合计算。','下一轮 09:34');
+    else if (state.morningMode === 'none') c += statusCard('0','今日早选0只','这是模型与硬闸门共同决定的正式结果，不是系统故障。','ZERO_SELECTION · 查看未通过原因', `<button class="btn secondary full" data-route="zero-explanation">为什么是0只</button>`);
+    else if (state.morningMode === 'blocked') c += blockedCard(STOCKS['000858'],'morning','BLOCKED_ABNORMAL_VOLATILITY');
+    else if (state.morningMode === 'expired') c += decisionCard('600519','morning',{ expired:true });
+    else if (state.morningMode === 'offline') c += `<div class="system-alert danger"><b>无法获得实时行情</b><span>系统问题与“无票可买”已明确区分。当前禁止生成新BUY。</span></div>`;
+    else c += statusCard('✓','早选最终选入1只','仅在价格不高于最终买入上限且报告处于VALID时有效。', liveExpiry('morning', true)) + decisionCard('600519','morning') + `<div class="card">${gate('竞价快照','09:26 / 27 / 28 / 29完整')}${gate('市场许可','S2允许早选')}${gate('监管状态','候选证券无活动阻断')}${gate('商业许可','当前仅研究展示','warn')}</div>`;
+    return c + `<footer class="risk-footer">投资有风险，入市需谨慎。</footer></div>`;
+  }
+
+  function renderTail() {
+    const disclosure=`<div class="level2-disclosure"><div class="row"><b>Level 2 尚未接入 · BAR_FILL_PROXY</b>${badge('不可折叠','amber')}</div><p>当前执行概率基于分钟级数据代理估算，非真实盘口队列位置。真实成交概率需要 Level 2 数据支持，目前尚未接入。</p></div>`;
+    let c = `<div class="page">${densityStrip()}${topSystemAlert()}<div class="row"><div>${badge('尾选T+1','purple')}<h2>14:25至14:50</h2></div>${badge(isProDetail()?'BAR_FILL_PROXY':'分钟行情代理估算','amber')}</div>${disclosure}${segment('tailMode',state.tailMode,[['waiting','等待'],['running','运行'],['opportunity','有机会'],['none','0只'],['blocked','阻断'],['expired','过期'],['offline','数据中断']])}`;
+    if (state.tailMode === 'waiting') c += statusCard('◒','等待尾选启动','14:25启动，14:46形成研究卡，14:50停止新开仓。','下一启动 14:25');
+    else if (state.tailMode === 'running') c += statusCard('◌','尾选运行中','实时分钟、行业强度、VWAP、日内承接和监管事件正在计算。','候选冻结 14:40');
+    else if (state.tailMode === 'none') c += statusCard('0','今日尾选0只','短窗口内没有形成正的保守优势和执行余量。','正式结果 · ZERO_SELECTION',`<button class="btn secondary full" data-route="zero-explanation">生成今日诚实度报告</button>`);
+    else if (state.tailMode === 'blocked') c += blockedCard(STOCKS['000858'],'tail','BLOCKED_TUSHARE_REALTIME_STALE');
+    else if (state.tailMode === 'expired') c += decisionCard('601318','tail',{ expired:true });
+    else if (state.tailMode === 'offline') c += `<div class="system-alert danger"><b>Tushare实时分钟不可用</b><span>外部数据源中断，系统未将其误报为“无候选”。</span></div>`;
+    else c += decisionCard('601318','tail') + `<div class="notice">次日研究路线：高开、承接、VWAP和风险线仅用于研究复核，不代表当前平台可向公众出具具体执行建议。</div>`;
+    return c + `<footer class="risk-footer">投资有风险，入市需谨慎。尾盘成交能力必须以正式Level 2授权和真实队列模型验证为准。</footer></div>`;
+  }
+
+  function mediumCandidates() {
+    const base = ['010823','600036','600519','601318','000858'];
+    const list = Array.from({ length: 15 }, (_, i) => base[i % base.length]);
+    return list.slice(0, state.mediumVisible).map((code, i) => decisionCard(code, 'medium', code === '000858' ? { blocked:true, reasonCode:'BLOCKED_ABNORMAL_VOLATILITY' } : {})).join('');
+  }
+
+  function renderMedium() {
+    let c = `<div class="page"><div class="row"><div>${badge('中长反转','purple')}<h2>5至15个交易日</h2></div>${badge('独立风险池','purple')}</div>${segment('mediumMode',state.mediumMode,[['observe','观察'],['confirmed','确认'],['accelerating','加速'],['invalidated','失效'],['none','0只']])}`;
+    if (state.mediumMode === 'observe') c += statusCard('…','等待反转确认','估值进入观察区，但趋势、资金与动量衰减尚未连续确认。','观察池4只') + decisionCard('600036','medium');
+    else if (state.mediumMode === 'accelerating') c += statusCard('↗','反转进入加速','重点转向利润保护、风险线上移和避免过度持有。','15日正收益78%') + decisionCard('010823','medium');
+    else if (state.mediumMode === 'invalidated') c += blockedCard(STOCKS['000858'],'medium','BLOCKED_REGULATORY_EVENT_CONFLICTED') + `<div class="notice red">禁止把早选或尾选失败仓位临时改名为中长持有。</div>`;
+    else if (state.mediumMode === 'none') c += statusCard('0','暂无中长机会','没有股票同时满足基本面稳定、估值、错杀、动量衰减与监管许可。','正式结果 · ZERO_SELECTION');
+    else c += `<section class="hero purple"><div class="eyebrow">反转阶段 · CONFIRMED</div><h1>15只进入确认层</h1><p>采用分批加载，避免真实数据密度下信息过载。默认先展示DecisionValue排名前5。</p><div class="hero-grid"><div><b>40%</b><span>仓位上限</span></div><div><b>¥10万</b><span>保护现金</span></div><div><b>9天</b><span>预计占用</span></div></div></section><div style="height:11px"></div>${mediumCandidates()}${state.mediumVisible < 15 ? `<button class="btn secondary full" data-action="load-more-medium">显示更多候选（${state.mediumVisible}/15）</button>` : ''}`;
+    return c + `<button class="btn secondary full" data-route="medium-process">查看中长完整流程</button><footer class="risk-footer">投资有风险，入市需谨慎。</footer></div>`;
+  }
+
+  function parseStockInput(value) {
+    const m = (value || '').trim().match(/^(\d{6})(?:@(\d+(?:\.\d+)?))?$/);
+    return m ? { code:m[1], cost:m[2] ? Number(m[2]) : null } : null;
+  }
+
+  function stockDecisionBody(stock, held) {
+    const publicMode=!adviceAllowed();
+    const horizon=publicQuantNumbersAllowed()?`${stock.p5}% / ${stock.p10}% / ${stock.p15}%`:(stock.p10>=70?'中短期支持度较高':'中短期支持度一般');
+    if (state.stockTab === 'decision') return `<div class="card ${held?'shadow-card':''}">${held?shadowDisclosure():''}${kv('AI研究结论', publicMode ? (held?'持仓风险扫描':'进入研究观察池') : (held ? 'HOLD / 动态退出' : stock.regulatory === 'NORMAL' ? 'BUY候选' : 'BLOCKED'), publicMode?'blue':held ? 'purple' : stock.regulatory === 'NORMAL' ? 'green' : 'red')}${kv('5 / 10 / 15日研究判断',horizon)}${kv(isProDetail()?'DecisionValue':'净决策优势',quantDv(stock),'blue')}${kv(isProDetail()?'置信区间下界':'保守情况下',quantLcb(stock),stock.lcb > 0 ? 'green' : 'red')}${kv('监管状态',stock.regulatory,stock.regulatory === 'NORMAL' ? 'green' : 'red')}${publicMode?kv('具体买卖建议','当前公众工具模式锁定','amber'):kv('个性化服务状态','持牌合作预览','purple')}${riskNotice(stock)}${evidenceChain(state.stockCode)}${dataDrawer('medium',stock,stock.regulatory === 'NORMAL' ? '' : 'BLOCKED_ABNORMAL_VOLATILITY')}</div>`;
+    if (state.stockTab === 'regulatory') return `<div class="card">${kv('风险警示','普通主板')}${kv('异常波动',stock.regulatory === 'NORMAL' ? '无' : '活动中',stock.regulatory === 'NORMAL' ? 'green' : 'red')}${kv('严重异常波动','无')}${kv('重点提示','无')}${kv('结构化来源','stk_shock / stk_high_shock / stk_alert')}</div>`;
+    if (state.stockTab === 'data') return `<div class="card">${gate('实时分钟与日线',relativeTime(state.dataTimestamp))}${gate('财务点时版本','2026Q2 PIT')}${gate('资金与筹码','上一交易日盘后，已计不确定性费用','warn')}${gate('数据许可','RESEARCH_ONLY','warn')}<div class="dataset-list">${sourceTags(DATASETS.medium)}</div></div>`;
+    const names = { fund:'基本面', tech:'技术结构', capital:'资金与筹码', event:'公告新闻', model:'模型解释' };
+    return `<div class="card">${gate(names[state.stockTab] || '分析维度','核心指标已通过')}${gate('趋势一致性','与中长反转阶段匹配')}${gate('风险项','无重大未解析事项')}${gate('供应商衍生数据','不确定性费用11bps','warn')}</div>`;
+  }
+  function renderStock() {
+    const stock = STOCKS[state.stockCode] || STOCKS['010823'];
+    const held = state.stockMode === 'held';
+    const pnl = held ? (stock.price / state.stockCost - 1) * 100 : 0;
+    const advice=adviceAllowed();
+    return `<div class="page">${densityStrip()}${platformStrip()}<div class="search"><input id="stock-input" value="${state.stockInput}" aria-label="股票代码或代码@成本价" placeholder="输入代码或代码@成本价"><button data-action="analyze-stock">AI分析</button></div><div class="mode-hints"><div class="mode-hint ${!held ? 'active' : ''}"><b>交易前研究</b><span>输入 600519<br>进入 ${isProDetail()?'PRE_TRADE_ANALYSIS':'买前研究'}</span></div><div class="mode-hint ${held ? 'active' : ''}"><b>影子持仓诊断</b><span>输入 010823@9.99<br>进入 ${isProDetail()?'SHADOW_POSITION_ANALYSIS':'影子持仓分析'}</span></div></div><article class="card ${held?'shadow-card':''}">${held?shadowDisclosure():''}<div class="row"><div><div class="stock">${stock.name}</div><div class="code">${state.stockCode} · ${held ? '影子持仓风险诊断' : '交易前研究分析'}</div></div><div><b class="price ${trendClass(stock.chg)}">${stock.price}</b><div class="sub ${trendClass(stock.chg)}">${formatPct(stock.chg)}</div></div></div><div class="tags">${held ? badge(`手动成本 ${state.stockCost}`,'purple') : badge(`综合 ${stock.score}分`,'blue')}${held ? badge(`影子浮动 ${formatPct(pnl)}`,pnl >= 0 ? 'red' : 'green') : badge(`5日研究判断 ${quantProbability(stock,'morning')}`,'green')}${badge(stock.regulatory,stock.regulatory === 'NORMAL' ? 'green' : 'red')}${badge(platform().short,platform().tone)}</div><div class="grid3"><div class="cell"><label>${held ? '当前输出' : '研究状态'}</label><b>${advice?(held?'HOLD':'BUY候选'):(held?'风险扫描':'观察池')}</b></div><div class="cell"><label>${held ? '风险参考线' : '具体价格'}</label><b>${advice?(held?Math.max(stock.stop,state.stockCost * .973).toFixed(2):stock.limit):lockedValue()}</b></div><div class="cell"><label>${held ? '剩余优势' : '个性化仓位'}</label><b>${held?(publicQuantNumbersAllowed()?'+34bps':'仍为正'):advice?stock.allocation+'%':lockedValue()}</b></div></div><div class="actions"><button class="btn secondary" data-action="add-shadow" data-code="${state.stockCode}">${held?'更新影子持仓':'加入影子观察'}</button><button class="btn equal-confirm" data-route="qualification">服务边界</button></div></article><div class="tabs">${[['decision','决策'],['fund','基本面'],['tech','技术'],['capital','资金'],['event','事件'],['regulatory','监管'],['model','模型'],['data','数据']].map(([v,l]) => `<button class="${state.stockTab === v ? 'active' : ''}" data-stock-tab="${v}">${l}</button>`).join('')}</div>${stockDecisionBody(stock,held)}<footer class="risk-footer">投资有风险，入市需谨慎。影子持仓由用户手动维护，不代表券商真实资产。</footer></div>`;
+  }
+
+  function renderTracking() {
+    const tabs = [['positions','影子持仓'],['candidates','候选'],['orders','记录'],['tasks','任务'],['risk','风险'],['data','数据']];
+    const positions=state.noPositions?[]:state.shadowPositions;
+    let body = '';
+    if (state.trackTab === 'positions') {
+      if (!positions.length) body = statusCard('▢','当前没有影子持仓','输入股票代码@成本价即可建立本机影子持仓，用于分析、提醒和复盘。','未接入券商账户', `<button class="btn primary full" data-tab="stock">去个股分析</button>`);
+      else body = `<div class="shadow-banner">${shadowDisclosure()}<b>这是系统影子持仓，不是你的券商真实账户</b><span>所有成本、数量、现金和收益均由用户手动记录或演示生成。</span></div><div class="metrics"><div class="metric shadow-card">${shadowDisclosure()}<label>影子资产估算</label><b>¥112.8万</b><small class="rise">仅本机模拟</small></div><div class="metric shadow-card">${shadowDisclosure()}<label>开放风险估算</label><b>1.26%</b><small>非券商事实</small></div></div>${section('当前影子持仓','shadow-check')}${positions.map((p,index) => { const st=STOCKS[p.code]||STOCKS['010823']; const pnl=(st.price/p.cost-1)*100; return `<article class="card entry shadow-card" data-route="position" data-index="${index}">${shadowDisclosure()}<div class="grow"><div class="title">${st.name}</div><div class="sub">${p.code} · ${p.strategy} · ${p.day}</div><div class="tags">${badge(`${Number(p.shares).toLocaleString()}股`)}${badge(formatPct(pnl),pnl>=0?'red':'green')}</div></div><span class="chev">›</span></article>`; }).join('')}<div class="quick-grid"><button class="btn secondary full" data-action="open-add-shadow">＋ 手动添加</button><button class="btn secondary full" data-route="watchlist-radar">组合雷达</button></div>`;
+    } else if (state.trackTab === 'candidates') body = statusCard('⌕','3只候选待观察','未满足价格、监管或证据条件前不会进入影子持仓。','早选1 · 中长2');
+    else if (state.trackTab === 'orders') body = `<div class="notice amber-strong">当前仅记录用户在券商终端自行完成的操作，不读取真实订单。</div><div class="card shadow-card">${shadowDisclosure()}${kv('贵州茅台','用户记录 · 已成交500股','green')}${kv('五粮液','用户记录 · 因监管放弃','red')}${kv('示例科技','影子计划 · 待复核','amber')}</div>`;
+    else if (state.trackTab === 'tasks') body = `<div class="card">${['09:43记录早选结果','14:25启动尾选','14:46复核研究卡','15:35查看每日摘要','20:00影子持仓复盘'].map((x,i)=>`<div class="event"><i class="event-dot"></i><h3>${x}</h3><p>${i===0?'已完成':'等待条件'}</p></div>`).join('')}</div>`;
+    else if (state.trackTab === 'risk') body = `<div class="card shadow-card">${shadowDisclosure()}${kv('影子总仓位','32%')}${kv('开放风险估算','1.26%')}${kv('风险偏好',riskProfile().label,riskProfile().tone)}${kv('建议仓位偏好上限',state.riskProfile==='unknown'?'待测评':riskProfile().maxAllocation+'%')}${kv('监管阻断持仓','0只')}</div>`;
+    else body = `<div class="card">${gate('实时行情',state.network==='online'?'ONLINE · '+relativeTime(state.dataTimestamp):'DEGRADED',state.network==='online'?'ok':'block')}${gate('影子持仓','本机手动记录')}${gate('券商实时API','当前未接入','warn')}${gate('商业许可','RESEARCH_ONLY','warn')}</div>`;
+    return `<div class="page">${densityStrip()}<div class="row"><div>${badge('SHADOW ACCOUNT','purple')}<h2>持仓、提醒与复盘</h2></div>${badge('非券商对账','amber')}</div>${segment('trackTab',state.trackTab,tabs)}${body}<footer class="risk-footer">投资有风险，入市需谨慎。所有影子持仓页面均强制显示不可隐藏的SHADOW标记。</footer></div>`;
+  }
+
+  function renderRegulatoryList() {
+    return `<div class="page">${subhead('监管状态')}<div class="notice blue">监管事件属于硬事实闸门。阻断时不展示新开仓操作，只保留风险复核和原始依据。</div>${REGULATORY_EVENTS.map((e,i)=>`<article class="card entry" data-route="regulatory" data-event-index="${i}"><div class="entry-icon">${e.severity==='danger'?'⛔':e.severity==='warning'?'!':'✓'}</div><div class="grow"><div class="title">${e.name} · ${isProDetail()?e.eventType:regulatoryLabel(e.eventType)}</div><div class="sub">${e.startDate} → ${e.endDate}<br>${isProDetail()?e.source:'交易所与结构化数据交叉核验'}</div></div>${badge(e.severity==='normal'?'正常':'阻断',e.severity==='normal'?'green':'red')}</article>`).join('')}</div>`;
+  }
+
+  function renderRegulatoryDetail() {
+    const idx = state.routeData?.eventIndex ?? REGULATORY_EVENTS.findIndex(x=>x.code===state.routeData?.code);
+    const e = REGULATORY_EVENTS[idx] || REGULATORY_EVENTS[0];
+    const context=e.severity==='normal'
+      ? `<div class="card">${kv('类似事件背景','当前无活动事件')}${kv('历史持续时间','不适用')}</div>`
+      : `<div class="card research-context"><div class="row"><div><div class="title">类似事件的历史背景</div><div class="sub">以下为演示统计布局，真实上线必须由可复现历史样本计算。</div></div>${badge('SIMULATED','amber')}</div>${kv('演示样本数','42次')}${kv('持续时间中位数','3个交易日')}${kv('80%样本解除区间','1至5个交易日')}${kv('这意味着什么','事件持续时间存在较大不确定性，不应据此推断价格方向')}</div>`;
+    return `<div class="page">${densityStrip()}${subhead('监管事件详情')}<section class="hero ${e.severity==='danger'?'danger':e.severity==='warning'?'purple':'cyan'}"><div class="eyebrow">${isProDetail()?e.eventType:regulatoryLabel(e.eventType)}</div><h1>${e.name}</h1><p>${e.reason}</p></section><div style="height:11px"></div><div class="card">${kv(isProDetail()?'event_type':'事件类型',isProDetail()?e.eventType:regulatoryLabel(e.eventType),e.severity==='normal'?'green':'red')}${kv('开始时间',e.startDate)}${kv('结束时间',e.endDate)}${kv('来源',isProDetail()?e.source:'交易所事实与Tushare结构化镜像')}${isProDetail()?kv('source_level',e.sourceLevel):''}${isProDetail()?kv('原因码',e.codeReason||'NONE',e.codeReason?'red':'green'):''}</div>${context}${section('对当前功能的影响')}<div class="card">${e.affected.map(x=>gate(x.split('：')[0],x.split('：')[1]||'',x.includes('阻断')?'block':'ok')).join('')}</div>${isProDetail()?`<div class="dataset-list">${sourceTags(DATASETS.regulatory)}</div>`:''}<div class="actions"><button class="btn secondary" data-action="toast" data-message="已打开交易所原始出处（演示）">查看原始出处</button><button class="btn equal-confirm" data-action="toast" data-message="已创建人工复核任务">创建复核任务</button></div></div>`;
+  }
+
+  const SETTINGS_GROUPS = [
+    ['显示与帮助',[['appearance','◐','模式显示','跟随系统 / 白天 / 夜晚'],['font','A','字体大小','标准 / 较大'],['detail-mode','层','四级信息密度',`${detailLevel().label} · 新手到机构`],['onboarding','?','5分钟新手教育','这不是荐股、数据与风险边界']]],
+    ['用户与安全网',[['safety-net','盾','持仓安全网',`${state.safetyWatchlist.length}只监测中 · 无需券商账户`],['watchlist-radar','◎','组合监管雷达',`${state.radarWatchlist.length}只股票一屏扫描`],['risk-profile','测','风险偏好与认知确认',`${riskProfile().label} · ${state.riskUnderstandingConfirmedAt?'已确认边界':'待确认边界'}`],['account-mode','影','账户接入方式','当前：影子持仓'],['notifications','✦','消息、关注过滤与提醒预算','监管实时 / 每日摘要 / 持仓复核']]],
+    ['信任与商业化',[['boundaries','界','产品边界','永久可访问 · 首次强制确认'],['performance','绩','策略历史表现','样本量 / 95%区间 / 回测影子实盘分离'],['qualification','证','平台资质状态','数据许可与投顾资质分开'],['subscription','会','会员与服务边界',`当前：${state.plan==='pro'?'Pro研究版':'免费版'}`],['institutional','企','机构研究与API','B端研究、风控、数据和模型治理']]],
+    ['账户与策略',[['account','¥','影子资金参数','100万 · 用户手动'],['strategy','◌','策略参数中心','早选 / 尾选 / 中长'],['risk','盾','风险与执行阈值','生产参数盘中只读'],['execution','执','人工记录设置','无自动下单']]],
+    ['数据与治理',[['data','库','数据源管理','Tushare + 交易所 + 用户记录'],['license','法','数据许可状态','当前 RESEARCH_ONLY'],['rules','规','证券规则中心','ST / 异常 / 重点提示'],['compliance','合','合规治理','LEGAL_REVIEW_REQUIRED'],['health','脉','系统健康','核心服务正常'],['models','模','模型中心','版本与认证'],['audit','档','版本与审计','可还原']]],
+    ['原型状态验收',[['scenario','试','异常与边界状态','断网、陈旧、无持仓、模式预览']]]
+  ];
+
+  const SETTING_DETAILS = {
+    account:['影子资金参数',[['总资金假设','¥100万'],['核心资金','¥70万'],['策略资金','¥30万'],['数据来源','用户手动'],['券商API','未接入']]],
+    strategy:['策略参数中心',[['早选','1至5日'],['尾选','T+1'],['中长','5至15日'],['0只结果','允许'],['自动下单','禁用']]],
+    risk:['风险与执行阈值',[['账户开放风险','≤2.00%'],['单股风险','≤0.45%'],['20日回撤熔断','10%'],['DEGRADED','禁止新开仓'],['追价','禁止']]],
+    execution:['人工记录设置',[['当前模式','影子持仓'],['执行方式','用户在券商终端独立完成'],['具体建议','公众工具模式锁定'],['成交事实','用户手动录入'],['自动下单','未启用']]],
+    data:['数据源管理',[['研究中台','Tushare'],['规则事实','交易所'],['账户事实','用户影子记录'],['执行增强','Level 2可选'],['点时数据','强制']]],
+    rules:['证券规则中心',[['ST每日快照','stock_st'],['ST状态事件','st'],['异常波动','stk_shock'],['严重异常波动','stk_high_shock'],['重点提示','stk_alert']]],
+    compliance:['合规治理',[['当前产品模式','公众研究工具'],['证券投资咨询业务资格','未持有'],['持牌合作机构','未接入'],['具体买卖建议','默认锁定'],['法律状态','LEGAL_REVIEW_REQUIRED']]],
+    health:['系统健康',[['前端挂载','HEALTHY'],['实时行情','ONLINE'],['规则引擎','ONLINE'],['影子持仓','本机可用'],['重大故障','0']]],
+    models:['模型中心',[['中长模型','RESEARCH_CERTIFIED'],['早选模型','RESEARCH_ONLY'],['尾选模型','需Level 2'],['概率校准','演示通过'],['真实Edge','未证明']]],
+    audit:['版本与审计',[['产品版本','Demo V4.6'],['规范版本','V7.1'],['规则版本','CN-A-2026.07'],['产品模式',platform().short],['前端构建',APP_VERSION]]]
+  };
+
+  function renderProfile() {
+    const dynamicDesc = (route, desc) => route==='risk-profile' ? `${riskProfile().label} · ${state.riskUnderstandingConfirmedAt?'已完成认知确认':'待完成认知确认'}` : route==='qualification' ? `${platform().short} · 业务资质未持有` : route==='subscription' ? `当前：${state.plan==='pro'?'Pro研究版':'免费版'}` : route==='detail-mode' ? `${detailLevel().label} · ${detailLevel().desc}` : route==='safety-net' ? `${state.safetyWatchlist.length}只监测中` : desc;
+    return `<div class="page">${subhead('我')}<article class="card boundary-entry" data-route="boundaries"><div class="row"><div><div class="title">产品边界 · 永久入口</div><div class="sub">不做什么、数据来源、历史样本限制、免费与付费差异、责任边界。</div></div>${badge(state.boundariesAccepted?'已确认':'待确认',state.boundariesAccepted?'green':'red')}</div></article>${ownerAccessStrip()}${densityStrip()}<div class="card"><div class="row"><div><div class="title">NiuD.AI V7.1 · Demo V4.6</div><div class="sub">金融专业机构级交互原型 · 原型负责人拥有完整权限和完整演示数据</div></div>${badge('OWNER','purple')}</div>${kv('边界确认时间',state.boundariesAcceptedAt?new Date(state.boundariesAcceptedAt).toLocaleString('zh-CN'):'尚未确认',state.boundariesAcceptedAt?'green':'red')}${kv('风险认知确认',state.riskUnderstandingConfirmedAt?new Date(state.riskUnderstandingConfirmedAt).toLocaleString('zh-CN'):'尚未确认',state.riskUnderstandingConfirmedAt?'green':'amber')}</div>${SETTINGS_GROUPS.map(([title,items])=>`${section(title)}${items.map(([route,icon,name,desc])=>`<article class="card entry" data-route="${route}"><div class="entry-icon">${icon}</div><div class="grow"><div class="title">${name}</div><div class="sub">${dynamicDesc(route,desc)}</div></div><span class="chev">›</span></article>`).join('')}`).join('')}</div>`;
+  }
+
+  function renderLicense() {
+    const rows=[['基础行情与财务','APPROVED_RESEARCH','green'],['实时分钟与竞价','APPROVED_RESEARCH','green'],['外部用户数据展示','NEGOTIATION_REQUIRED','amber'],['商业模型训练','NEGOTIATION_REQUIRED','amber'],['PDF永久存储','RESTRICTED','red'],['原始数据再分发','DENIED','red']];
+    return `<div class="page">${subhead('数据许可状态')}<section class="hero purple"><div class="eyebrow">DATA LICENSE</div><h1>RESEARCH_ONLY</h1><p>数据商用授权只回答“能否使用和展示数据”，不等于平台已具备证券投资咨询业务资质。</p></section><div style="height:11px"></div><div class="card">${rows.map(([n,s,t])=>`<div class="license-row"><div><div class="title">${n}</div><div class="sub">用途范围、保留期限和展示权限独立确认</div></div>${badge(s,t)}</div>`).join('')}</div><button class="btn secondary full" data-route="qualification">查看平台资质全景</button></div>`;
+  }
+
+  function renderQualification() {
+    const mode=platform();
+    return `<div class="page">${subhead('平台资质状态')}<section class="hero ${adviceAllowed()?'purple':'danger'}"><div class="eyebrow">PLATFORM QUALIFICATION</div><h1>${mode.short}</h1><p>${mode.desc}</p></section><div style="height:11px"></div><div class="card">${kv('Tushare数据许可','RESEARCH_ONLY','amber')}${kv('证券投资咨询业务资格','NOT_HELD','red')}${kv('持牌投顾合作','NOT_CONNECTED','red')}${kv('公众具体建议','LOCKED','amber')}${kv('公众量化展示口径',state.publicQuantPolicy==='qualitative'?'定性默认':'数字预览 · 待法律确认','amber')}${kv('法律与合规审查','REQUIRED','amber')}</div><div class="notice red"><b>核心业务边界</b><br>公众工具模式不开放具体买入价、仓位和执行建议。即使只展示概率、DecisionValue或bps，也必须由证券合规律师确认是否构成证券分析意见。</div>${section('下一次法律咨询必须回答')}<div class="card">${gate('问题1','公开展示单只证券的概率、bps或收益分布，是否需要证券投资咨询业务资格','warn')}${gate('问题2','定性证据链和风险等级的合规边界是什么','warn')}${gate('问题3','公开安全网事实页与持续订阅提醒的合规文案、延迟声明和责任边界','warn')}</div>${section('公众量化展示原型')}<div class="choice mode-switch">${[['qualitative','定性默认'],['numericPreview','数字预览']].map(([v,l])=>`<button class="${state.publicQuantPolicy===v?'active':''}" data-action="quant-policy" data-policy="${v}">${l}</button>`).join('')}</div><div class="notice blue">真实产品不得允许普通用户自行切换。该开关仅用于法律评审和产品影响预览。</div>${section('三条商业路径')}<div class="card">${gate('路径A · 纯研究工具','市场事实、风险闸门、证据链、影子持仓和提醒；当前建议MVP路径')}${gate('路径B · 持牌投顾合作','由持牌机构承担建议出具、适当性、留痕和客户服务责任','warn')}${gate('路径C · 自行申请或并购资质','周期、资本、人员和治理要求较高，需专项法律尽调','warn')}</div><button class="btn secondary full" data-route="institutional">查看机构研究与API能力</button>${section('原型模式预览')}<div class="choice mode-switch">${[['tool','公众工具'],['partnerPreview','持牌合作预览'],['institutional','机构研究']].map(([v,l])=>`<button class="${state.platformMode===v?'active':''}" data-action="platform-mode" data-platform="${v}">${l}</button>`).join('')}</div><div class="notice blue">模式切换仅用于产品原型验收。真实产品必须由后台资格配置控制，普通用户不可自行解锁。</div></div>`;
+  }
+  function wilsonInterval(count, winText) {
+    const p=Math.max(0,Math.min(1,Number(String(winText).replace('%',''))/100));
+    if(!count) return ['0%','0%'];
+    const z=1.96, denom=1+z*z/count;
+    const center=(p+z*z/(2*count))/denom;
+    const margin=z*Math.sqrt((p*(1-p)+z*z/(4*count))/count)/denom;
+    return [`${Math.max(0,(center-margin)*100).toFixed(0)}%`,`${Math.min(100,(center+margin)*100).toFixed(0)}%`];
+  }
+
+  function performanceCard(name,key,data) {
+    const [count,win,avg,dd,neff]=data;
+    const [lo,hi]=wilsonInterval(count,win);
+    const sampleLabel=count<30?'样本很小':count<100?'样本量较小':'样本量中等';
+    const shadow=state.performanceSource==='shadow';
+    return `<article class="card ${shadow?'shadow-card':''}">${shadow?shadowDisclosure('影子组合 · 非真实业绩'):''}<div class="row"><div><div class="title">${name}</div><div class="sub">${state.performanceSource==='research'?'嵌套样本外研究布局':'影子组合记录'} · ${state.performanceWindow}日</div></div>${badge(state.performanceSource==='research'?'非实盘':sampleLabel,state.performanceSource==='research'?'amber':'purple')}</div><div class="perf-grid"><div><label>决策数</label><b>${count}</b></div><div><label>胜率</label><b>${win}</b></div><div><label>95%区间</label><b>${lo}–${hi}</b></div><div><label>平均净收益</label><b class="rise">${avg}</b></div><div><label>最大回撤</label><b class="fall">${dd}</b></div><div><label>N_eff</label><b>${neff}</b></div></div><div class="confidence-note">${win}胜率基于${count}次决策，95%区间约为${lo}至${hi}，${sampleLabel}、区间较宽，不得单独用于营销。</div></article>`;
+  }
+
+  function renderPerformance() {
+    const source=state.performanceSource;
+    const names={morning:'早选1至5日',tail:'尾选T+1',medium:'中长反转'};
+    let body='';
+    if(source==='live') body=statusCard('∅','暂无可验证实盘业绩','当前状态为EMPIRICAL_EDGE_NOT_YET_PROVEN。上线前必须接入可审计的真实成交、成本和资金曲线。','LIVE_VERIFIED_COUNT = 0');
+    else { const data=PERFORMANCE_DATA[source][state.performanceWindow]; body=Object.entries(data).map(([k,v])=>performanceCard(names[k],k,v)).join(''); }
+    return `<div class="page">${densityStrip()}${subhead('策略历史表现')}<div class="performance-warning"><b>历史业绩不代表未来收益</b><span>回测、影子组合和可验证实盘必须分开展示，禁止混用。</span></div><div class="seg">${[['research','研究回测'],['shadow','影子组合'],['live','可验证实盘']].map(([v,l])=>`<button class="${source===v?'active':''}" data-action="performance-source" data-source="${v}">${l}</button>`).join('')}</div><div class="seg">${['30','90','180'].map(v=>`<button class="${state.performanceWindow===v?'active':''}" data-action="performance-window" data-window="${v}">${v}日</button>`).join('')}</div>${body}<div class="card">${kv('当前研究结论','EMPIRICAL_EDGE_NOT_YET_PROVEN','red')}${kv('可营销实盘记录','0条')}${kv('下一步','接入影子组合长期记录与真实成本核验')}</div></div>`;
+  }
+
+  function renderRiskProfile() {
+    const p=riskProfile();
+    return `<div class="page">${densityStrip()}${subhead('风险偏好与认知确认')}<section class="hero cyan"><div class="eyebrow">PRODUCT PERSONALIZATION</div><h1>${p.label}</h1><p>${p.detail}</p></section><div style="height:11px"></div><div class="card">${kv('产品内仓位提示上限',state.riskProfile==='unknown'?'待测评':p.maxAllocation+'%')}${kv('默认风险证据展示',state.riskProfile==='conservative'?'自动展开':'按需展开')}${kv('产品与荐股区别认知',state.riskUnderstandingConfirmedAt?'已主动确认':'待确认',state.riskUnderstandingConfirmedAt?'green':'red')}${kv('确认时间',state.riskUnderstandingConfirmedAt?new Date(state.riskUnderstandingConfirmedAt).toLocaleString('zh-CN'):'-')}${kv('正式适当性效力','不具备','red')}</div><div class="notice amber-strong">第5题为强制风险沟通确认。用户必须明确理解：本产品提供研究、事实和风险信息，不替代持牌投顾，也不保证收益。</div><button class="btn primary full" data-action="start-risk-assessment">${state.riskProfile==='unknown'?'开始5题测评':'重新测评并更新留痕'}</button></div>`;
+  }
+
+  function renderAccountMode() {
+    return `<div class="page">${subhead('账户接入方式')}<div class="card account-mode active-mode"><div class="row"><div><div class="title">影子持仓 · 当前MVP</div><div class="sub">用户手动录入代码、成本和数量，用于分析、提醒和复盘。</div></div>${badge('ACTIVE','green')}</div></div><div class="card account-mode"><div class="row"><div><div class="title">CSV成交记录导入</div><div class="sub">未来支持模板校验和用户确认，不宣称实时同步。</div></div>${badge('PLANNED','amber')}</div></div><div class="card account-mode locked-mode"><div class="row"><div><div class="title">券商实时账户连接</div><div class="sub">需要券商合作、业务资质、安全评估和正式API授权。</div></div>${badge('NOT_AVAILABLE','red')}</div></div><div class="notice blue">V4.4继续明确移除“券商一致”的默认假象，所有账户数据均明确标注为影子记录。</div></div>`;
+  }
+
+  function renderSubscription() {
+    return `<div class="page">${subhead('会员与服务边界')}<section class="hero purple"><div class="eyebrow">COMMERCIAL MODEL</div><h1>两档订阅，避免选择迷雾</h1><p>免费安全网负责获客，Pro研究版统一包含30只监测和完整研究能力。持牌投顾服务仍然独立。</p></section><div style="height:11px"></div><div class="plan-card ${state.plan==='free'?'selected':''}"><div><b>免费版</b><span>3只股票监管监测、App内P0提醒、基础事实页、第一条证据预览</span></div><strong>免费</strong><button data-action="select-plan" data-plan="free">${state.plan==='free'?'当前方案':'切换预览'}</button></div><div class="plan-card ${state.plan==='pro'?'selected':''}"><div><b>Pro研究版</b><span><b style="font-size:10px;color:var(--green)">已包含安全网Pro全部能力</b><br>30只监测、完整证据链、DecisionValue瀑布、数据审计、历史研究、影子持仓和每日摘要</span></div><strong>¥49/月*</strong><button data-action="select-plan" data-plan="pro">${state.plan==='pro'?'当前试用':'开始试用'}</button></div><div class="plan-card locked-mode"><div><b>持牌投顾服务</b><span>具体价格、仓位和时点建议，只能由合规持牌合作路径提供，不包含在Pro会员中</span></div><strong>待合作</strong><button data-route="qualification">资质要求</button></div><div class="sub">*价格仅为商业模型测试假设，不代表最终定价。</div>${featureLock('免费先体验，Pro再深化','免费用户能看到第一条证据；Pro统一解锁30只安全网额度和完整研究能力。')}</div>`;
+  }
+  function renderNotificationSettings() {
+    const labels={regulatory:['P0监管实时','持仓或关注证券异常波动、重点提示'],daily:['P1每日摘要','每天解释为什么有机会或0只'],position:['P1持仓复核','风险线、持有期和重大事件'],system:['P2系统消息','数据延迟、版本和维护']};
+    const left=Math.max(0,state.p0BudgetLimit-state.p0BudgetUsed);
+    return `<div class="page">${subhead('消息、关注过滤与提醒预算')}<article class="card alert-budget"><div class="row"><div><div class="title">本周P0主动提醒预算</div><div class="sub">避免“狼来了”。超过软上限后，非重大重复事件转为App内静默更新。</div></div>${badge(`${left}次可用`,left?'green':'amber')}</div>${kv('软上限',`${state.p0BudgetLimit}次/周`)}${kv('本周已使用',`${state.p0BudgetUsed}次`)}${kv('绝不降级','首次重大监管事件、状态未知、数据中断')}</article><div class="card">${Object.entries(labels).map(([k,v])=>`<div class="setting"><div><div class="title">${v[0]}</div><div class="sub">${v[1]}</div></div><button class="toggle ${state.notificationPrefs[k]?'on':''}" data-action="toggle-notification" data-pref="${k}">${state.notificationPrefs[k]?'开启':'关闭'}</button></div>`).join('')}</div><div class="notice red">提醒预算不能压制首次重大风险、监管状态未知或监测链路故障。P0软上限只用于重复事件降噪。</div></div>`;
+  }
+
+  function renderSafetyNet() {
+    const ss=safetyStatus();
+    const r=safetyReliability();
+    const heroClass=!r.healthy?'danger':ss.danger?'danger':'cyan';
+    const headline=!r.healthy?r.label:(ss.danger?`${ss.danger}只需要关注`:'安全网运行中');
+    const riskCount=r.healthy?ss.danger:'?';
+    const degraded=!r.healthy?`<div class="system-alert ${r.tone==='red'?'danger':'warning'}"><b>${r.label}：不能据此判断安全</b><span>${r.detail}</span><button data-action="scenario" data-scenario="online">恢复演示</button></div>`:'';
+    const limit=state.plan==='free'?3:30;
+    const eventCards=ss.events.map(e=>{
+      if(!r.healthy){
+        const last=e.severity==='normal'?'上次有效快照未发现活动监管事件':`上次有效快照：${e.reason}`;
+        return `<article class="card safety-watch-card degraded-card"><div class="row"><div><div class="title">${e.name} · ${e.code}</div><div class="sub">当前状态未知。${last}</div></div>${badge('监测降级',r.tone)}</div><div class="notice red">数据恢复前，不得把“上次未发现事件”理解为当前安全。</div><div class="actions"><button class="btn secondary" data-action="toast" data-message="已打开上次有效快照（演示）">查看上次快照</button><button class="btn danger" data-action="remove-safety" data-code="${e.code}">停止监测</button></div></article>`;
+      }
+      return `<article class="card safety-watch-card"><div class="row"><div><div class="title">${e.name} · ${e.code}</div><div class="sub">${e.severity==='normal'?'当前未发现活动监管事件':e.reason}</div></div>${badge(e.severity==='normal'?'未发现事件':'需关注',e.severity==='normal'?'green':'red')}</div><div class="tags">${badge('异常波动')}${badge('严重异常')}${badge('重点提示')}${badge('风险警示')}</div><div class="actions">${REGULATORY_EVENTS.some(x=>x.code===e.code)?`<button class="btn secondary" data-route="regulatory" data-code="${e.code}">查看依据</button>`:`<button class="btn secondary" data-action="toast" data-message="当前未发现活动监管事件">查看检查结果</button>`}<button class="btn danger" data-action="remove-safety" data-code="${e.code}">停止监测</button></div></article>`;
+    }).join('');
+    return `<div class="page">${subhead('持仓安全网')}${degraded}<section class="hero ${heroClass}"><div class="eyebrow">REGULATORY SAFETY NET</div><h1>${headline}</h1><p>${r.healthy?'不需要连接券商。输入股票代码即可订阅异常波动、严重异常波动、重点提示与风险警示事实。':r.detail}</p><div class="hero-grid"><div><b>${ss.count}</b><span>监测证券</span></div><div><b>${riskCount}</b><span>${r.healthy?'活动风险':'当前未知'}</span></div><div><b>${r.healthy?'P0':'降级'}</b><span>消息状态</span></div></div></section><div style="height:11px"></div><article class="card coverage-card"><div class="row"><div><div class="title">覆盖范围与时效声明</div><div class="sub">先说明边界，再谈“安全”。以下为生产目标，不代表当前Demo已完成认证。</div></div>${badge('NOT_YET_CERTIFIED','amber')}</div>${kv('覆盖目标','沪深主板普通股票')}${kv('特殊类别','ST、退市整理、停牌及代码变更需独立规则验证')}${kv('提醒时效目标','上游数据更新后 App内 P95 ≤ 5分钟')}${kv('当前时效认证','尚未完成灰度实测','red')}${kv('故障策略','状态未知，不输出绿色安全结论')}${kv('公开查询页','niud.ai/check/{code} · ROADMAP','blue')}</article><div class="search"><input id="safety-input" placeholder="输入6位股票代码，如 600519" maxlength="6"><button data-action="subscribe-safety">订阅</button></div><div class="sub" style="margin:8px 3px 14px">当前方案最多监测${limit}只。原型仅展示App内提醒，短信、微信和公开查询页属于后续路线图。</div>${eventCards||statusCard('盾','还没有监测股票','输入你持有或关注的股票代码，安全网会持续检查结构化监管事件。','无需券商账户')}<div class="notice blue"><b>产品承诺边界</b><br>安全网提供结构化事实提醒，不保证绝不漏报，也不替代交易所公告、券商通知或用户独立判断。</div></div>`;
+  }
+  function renderInstitutional() {
+    return `<div class="page">${densityStrip()}${subhead('机构研究与API')}<section class="hero cyan"><div class="eyebrow">NIUD.AI INSTITUTIONAL</div><h1>研究、风控与监管数据基础设施</h1><p>机构模式不是公众页面的换色版，而是独立的合同、权限、数据许可、模型治理和服务等级体系。</p></section><div style="height:11px"></div>${INSTITUTIONAL_CAPABILITIES.map(([name,desc,mode])=>`<article class="card"><div class="row"><div><div class="title">${name}</div><div class="sub">${desc}</div></div>${badge(mode,'purple')}</div></article>`).join('')}<div class="card">${kv('交付模式','API / 工作台 / 私有化评估')}${kv('身份与权限','SSO / RBAC / 审计日志')}${kv('服务等级','按合同定义SLA')}${kv('数据许可','机构级单独谈判','amber')}${kv('模型输出','研究和风控用途，按场景审批')}</div><div class="actions"><button class="btn secondary" data-route="api-playground">打开API Playground</button><button class="btn equal-confirm" data-action="toast" data-message="已创建机构合作线索（演示）">预约方案沟通</button></div></div>`;
+  }
+
+  function renderApiPlayground() {
+    const request=`GET /v1/research/decision/600519?as_of=2026-08-06T09:29:00+08:00`;
+    const response={security:'600519.SH',as_of:'2026-08-06T09:29:00+08:00',regulatory_gate:'PASS',decision_value_bps:82,lcb_bps:21,data_authority:['T0','T1','T2','T5'],model_version:'morning-v7.1.3',audit_snapshot_id:'ds_20260806_092900_600519',advice_status:'RESEARCH_ONLY'};
+    return `<div class="page">${subhead('API Playground')}<div class="notice amber-strong">完整机构数据仅供演示。真实API必须使用机构合同、RBAC、字段级许可和审计日志。</div><article class="card api-card"><div class="title">请求示例</div><pre>${request}</pre><button class="btn primary full" data-action="run-api-demo">运行演示请求</button></article><article class="card api-card"><div class="row"><div class="title">响应示例</div>${badge('200 OK','green')}</div><pre id="api-response">${JSON.stringify(response,null,2)}</pre></article><div class="card">${gate('字段血缘','每个字段关联数据源、时间戳和许可证')}${gate('模型治理','版本冻结、审批、回滚和漂移监测')}${gate('机构隔离','租户、权限、审计和私有化评估')}${gate('投顾边界','research_only字段禁止被误读为公众买卖建议','warn')}</div></div>`;
+  }
+
+  function renderDetailMode() {
+    const levels=Object.entries(DETAIL_LEVELS);
+    const examples={beginner:[['今天市场怎么样','环境偏积极，但仍要逐只核对风险'],['系统怎么看','支持关注 / 不支持关注'],['你要做什么','先核对监管和数据']],standard:[['市场状态','多板块同步偏强'],['研究结论','净优势较强，保守情景仍为正'],['证据','显示第一层依据和数据来源摘要']],professional:[['MarketRegime','S2共振'],['DecisionValue / LCB','完整bps拆解和保守下界'],['审计','T0-T5、原因码、快照和模型版本']],institutional:[['组合与API','批量雷达、字段级血缘和审计快照'],['模型治理','版本冻结、验证、漂移和回滚'],['企业能力','SSO、RBAC、SLA和私有化']]};
+    return `<div class="page">${subhead('四级信息密度')}<article class="card density-control"><div class="row"><div><div class="title">你现在看到的是${detailLevel().label}信息层</div><div class="sub">${detailLevel().desc}</div></div>${badge(`${detailLevel().index+1}/4`,detailLevel().tone)}</div><input id="detail-slider" type="range" min="0" max="3" step="1" value="${detailLevel().index}" aria-label="信息密度层级"><div class="density-labels">${levels.map(([k,v])=>`<button class="${state.detailMode===k?'active':''}" data-action="detail-level" data-level="${k}">${v.label}</button>`).join('')}</div></article><div class="notice blue">原型负责人拥有完整底层数据。切换层级只改变用户看到的表达与信息量，不会删除数据或改变模型结论。</div><div class="card">${examples[state.detailMode].map(([a,b])=>gate(a,b)).join('')}</div></div>`;
+  }
+
+  function renderBoundaries() {
+    const accepted=state.boundariesAcceptedAt?new Date(state.boundariesAcceptedAt).toLocaleString('zh-CN'):'尚未确认';
+    return `<div class="page">${subhead('产品边界')}<section class="hero danger"><div class="eyebrow">PRODUCT BOUNDARIES</div><h1>先说不做什么</h1><p>这不是免责脚注，而是产品能力、商业模式和用户责任的永久边界。</p></section><div style="height:11px"></div><article class="card boundary-card"><div class="title">本产品不做什么</div>${gate('不提供收益保证','任何模型结论都可能失效','block')}${gate('不代替持牌投顾','公众研究工具不出具个性化具体买卖建议','block')}${gate('不自动下单','所有真实交易由用户在券商终端独立完成','block')}${gate('不冒充真实账户','影子持仓不是券商资产、收益或成交事实','block')}</article><article class="card"><div class="title">数据来源与延迟</div>${kv('规则事实','交易所原文与结构化镜像')}${kv('研究数据','Tushare及许可范围内的数据源')}${kv('Level 2','当前未接入，尾盘仅BAR_FILL_PROXY','amber')}${kv('故障策略','状态未知，不输出绿色安全结论')}${kv('商业许可','书面确认前不得正式收费','red')}</article><article class="card"><div class="title">历史表现与样本限制</div>${kv('研究回测','非实盘，不代表未来')}${kv('影子组合','SHADOW · 非真实收益','purple')}${kv('可验证实盘','0条','red')}${kv('展示要求','胜率必须同时展示样本量和95%区间')}</article><article class="card"><div class="title">免费与付费差异</div>${kv('免费版','3只安全网、基础事实、第一条证据')}${kv('Pro研究版','30只监测、完整证据链、审计与雷达')}${kv('不会被会员解锁','具体价格、仓位、执行时点','red')}</article><div class="notice blue"><b>最近确认</b><br>${accepted}。该确认仅证明用户看过产品边界，不替代正式投资者适当性评估或法律意见。</div><div class="actions"><button class="btn secondary" data-route="qualification">平台资质状态</button><button class="btn equal-confirm" data-action="reconfirm-boundaries">重新确认边界</button></div></div>`;
+  }
+
+  function radarStatus(code) {
+    const st=STOCKS[code]||{name:'自选证券',dv:0,lcb:0,regulatory:'NORMAL',price:0,chg:0};
+    const ev=safetyEventFor(code);
+    return {code,stock:st,event:ev,shadow:state.shadowPositions.some(p=>p.code===code)};
+  }
+
+  function renderWatchlistRadar() {
+    const rows=state.radarWatchlist.map(radarStatus);
+    const risks=rows.filter(r=>r.event.severity!=='normal').length;
+    const positive=rows.filter(r=>r.stock.lcb>0).length;
+    return `<div class="page">${densityStrip()}${subhead('组合监管雷达')}<section class="hero cyan"><div class="eyebrow">PORTFOLIO RADAR</div><h1>${rows.length}只股票一屏扫描</h1><p>监管状态优先，LCB决定是否支持继续研究；点估计DecisionValue不单独形成结论。</p><div class="hero-grid"><div><b>${risks}</b><span>监管风险</span></div><div><b>${positive}</b><span>LCB为正</span></div><div><b>${rows.filter(r=>r.shadow).length}</b><span>影子持仓</span></div></div></section><div style="height:11px"></div><div class="search"><input id="radar-input" placeholder="添加6位股票代码" maxlength="6"><button data-action="add-radar">添加</button></div><div class="radar-head"><span>证券</span><span>监管</span><span>${isProDetail()?'DV / LCB':'研究结论'}</span></div>${rows.map(r=>`<article class="radar-row ${r.shadow?'shadow-card':''}">${r.shadow?shadowDisclosure():''}<div><b>${r.stock.name}</b><span>${r.code}${r.shadow?' · 影子持仓':''}</span></div><div>${badge(r.event.severity==='normal'?'无活动事件':'需关注',r.event.severity==='normal'?'green':'red')}<small>${r.stock.regulatory}</small></div><div><b class="${r.stock.lcb>0?'green':'red'}">${isProDetail()?`${quantDv(r.stock)} / ${quantLcb(r.stock)}`:(r.stock.lcb>0?'支持继续研究':'暂不支持')}</b><button data-action="remove-radar" data-code="${r.code}">×</button></div></article>`).join('')||statusCard('◎','雷达为空','添加多只股票后可一屏查看监管状态和保守优势。','组合雷达')}<div class="notice amber-strong">组合雷达是研究与风险扫描工具，不是组合配置建议。监管事实、模型数据和影子持仓必须分层理解。</div></div>`;
+  }
+
+  function renderScenario() {
+    const items=[['online','正常联网','实时数据健康，显示标准路径'],['offline','无网络','明确系统连接中断'],['provider','数据源故障','区分外部供应商与无候选'],['stale','实时数据陈旧','超过阈值后阻断新开仓'],['noPositions','无持仓','跟踪模块显示引导空态'],['toolMode','公众工具模式','锁定具体价格与仓位'],['partnerMode','持牌合作预览','仅用于验证未来合作流程']];
+    return `<div class="page">${subhead('异常与边界状态')}<div class="notice blue">此页面仅用于生产级原型验收，真实产品由系统自动进入这些状态。</div><div class="card">${items.map(([v,n,d])=>`<div class="setting"><div><div class="title">${n}</div><div class="sub">${d}</div></div><button class="btn ${((v==='noPositions'&&state.noPositions)||(v===state.network))?'primary':'secondary'}" data-action="scenario" data-scenario="${v}">预览</button></div>`).join('')}</div></div>`;
+  }
+
+  function renderSettings(route) {
+    if (route==='appearance') return `<div class="page">${subhead('模式显示')}<div class="card setting"><div><div class="title">显示模式</div><div class="sub">设置保存在当前设备</div></div><div class="choice">${[['system','跟随系统'],['light','一直白天'],['dark','一直夜晚']].map(([v,l])=>`<button class="${state.theme===v?'active':''}" data-setting="theme:${v}">${l}</button>`).join('')}</div></div></div>`;
+    if (route==='font') return `<div class="page">${subhead('字体大小')}<div class="card setting"><div><div class="title">阅读字号</div><div class="sub">标准或较大</div></div><div class="choice">${[['standard','标准'],['large','较大']].map(([v,l])=>`<button class="${state.font===v?'active':''}" data-setting="font:${v}">${l}</button>`).join('')}</div></div></div>`;
+    if (route==='boundaries') return renderBoundaries();
+    if (route==='watchlist-radar') return renderWatchlistRadar();
+    if (route==='api-playground') return renderApiPlayground();
+    if (route==='license') return renderLicense();
+    if (route==='qualification') return renderQualification();
+    if (route==='performance') return renderPerformance();
+    if (route==='risk-profile') return renderRiskProfile();
+    if (route==='account-mode') return renderAccountMode();
+    if (route==='subscription') return renderSubscription();
+    if (route==='notifications') return renderNotificationSettings();
+    if (route==='safety-net') return renderSafetyNet();
+    if (route==='institutional') return renderInstitutional();
+    if (route==='detail-mode') return renderDetailMode();
+    if (route==='scenario') return renderScenario();
+    if (route==='onboarding') return `<div class="page">${subhead('5分钟新手教育')}<div class="card">${gate('平台模式','公众工具与持牌建议服务严格区分')}${gate('S0-S5市场状态','用于描述市场风险与共振，不代表涨跌保证')}${gate('DecisionValue','专业模式展示净优势拆解；公众模式默认采用定性口径')}${gate('硬闸门','监管、数据、风险或执行失败时直接禁止新开仓')}${gate('影子持仓','用户手动记录，不代表券商账户')}${gate('人工执行','NiuD.AI不自动下单')}</div><button class="btn primary full" data-action="open-onboarding">重新播放引导</button></div>`;
+    const [title,rows]=SETTING_DETAILS[route]||['系统详情',[['状态','已配置'],['生产修改','盘中只读'],['审批要求','双人复核'],['审计记录','完整保留']]];
+    return `<div class="page">${subhead(title)}<div class="card">${rows.map(([a,b])=>kv(a,b)).join('')}</div><div class="notice blue">真实生产参数必须进入冻结注册表并经过审批，原型中的数值仅用于验证信息结构。</div></div>`;
+  }
+
+  function waterfallChart(code) {
+    const d=DV_COMPONENTS[code]||DV_COMPONENTS['600519'];
+    const items=[['预期净收益',d.expected,'positive','ExpectedNetAlpha','主要正向贡献'],['执行成本P90',-d.execution,'negative','ExecutionCostP90','中等扣减'],['尾部风险费用',-d.tail,'negative','TailRiskCharge','小幅扣减'],['基础模型不确定性',-d.model,'negative','BaseModelUncertainty','小幅扣减'],['供应商衍生不确定性',-d.provider,'provider','ProviderDerivedUncertainty','独立扣减']];
+    const max=Math.max(...items.map(x=>Math.abs(x[1])),d.final);
+    const numeric=publicQuantNumbersAllowed();
+    return `<div class="waterfall"><div class="waterfall-title"><b>${isProDetail()?'DecisionValue瀑布':'净优势是怎样形成的'}</b><span>${numeric?(isProDetail()?'单位：bps':'加分减去成本和风险'):'公众默认定性展示'}</span></div>${items.map(([label,val,tone,tech,qual])=>`<div class="waterfall-row"><div><b>${label}</b>${isProDetail()?`<span>${tech}</span>`:''}</div><div class="waterfall-track"><i class="${tone}" style="--wf:${Math.max(10,Math.abs(val)/max*100)}%"></i></div><strong class="${val>=0?'rise':'fall'}">${numeric?`${val>=0?'+':''}${val}bps`:qual}</strong></div>`).join('')}<div class="waterfall-total"><div><b>${isProDetail()?'DecisionValue':'最终净优势'}</b><span>${numeric?`保守下界 +${d.lcb}bps`:'保守情景仍为正'}</span></div><strong>${numeric?`+${d.final}bps`:'较强'}</strong></div></div>`;
+  }
+  function renderDecisionDetail() {
+    const code=state.routeData?.code||'600519'; const strategy=state.routeData?.strategy||'morning'; const st=STOCKS[code]||STOCKS['600519'];
+    const distribution=publicQuantNumbersAllowed()?'-3.4% / +6.5% / +14.2%':'下行情景 / 中性情景 / 上行情景';
+    return `<div class="page">${subhead('完整决策详情')}${st.regulatory==='NORMAL'&&st.lcb>0?decisionCard(code,strategy):blockedCard(st,strategy,'BLOCKED_ABNORMAL_VOLATILITY')}<article class="card">${waterfallChart(code)}</article><div class="card">${kv('收益分布 Q10 / Q50 / Q90',distribution)}${kv(isProDetail()?'最终DecisionValue':'最终净优势',quantDv(st),'blue')}${kv(isProDetail()?'Lower Confidence Bound':'保守情况下',quantLcb(st),'purple')}</div>${state.platformMode==='tool'&&state.publicQuantPolicy==='qualitative'?`<div class="notice amber-strong">公众模式默认隐藏单只证券的精确概率和bps，等待法律意见确认量化预测数字的业务资质边界。</div>`:''}</div>`;
+  }
+  function renderZeroExplanation() {
+    const total=ZERO_FILTER_GROUPS.reduce((a,g)=>a+g.count,0);
+    return `<div class="page">${densityStrip()}${subhead('为什么今天是0只')}<article class="honesty-hero"><span>NIUD.AI · 今日诚实度报告</span><h1>0只，也是一项正式决策</h1><p>系统检查了${total}个候选，没有为了给结果而降低监管、价格、置信下界或组合约束。</p><button class="btn primary full" data-action="share-honesty">生成可分享图片</button></article><div class="notice blue">点击每一道闸门，可查看具体候选和被过滤原因。分享图片会强制带上“研究原型 · 非投资建议”水印。</div>${ZERO_FILTER_GROUPS.map(g=>`<details class="card zero-group"><summary><div><b>${g.title}</b><span>${g.reason}</span></div>${badge(`${g.count}只`,g.tone)}</summary><div class="zero-candidates">${g.candidates.map(([code,name,reason,rc])=>`<div class="zero-candidate"><div><b>${name} ${code}</b><span>${reason}</span></div>${isProDetail()?`<code>${rc}</code>`:badge('未通过',g.tone)}</div>`).join('')}</div></details>`).join('')}<div class="card">${gate('市场环境','允许寻找机会，但不要求必须有候选')}${gate('价格纪律','不追价，不为了给结果降低上限','warn')}${gate('监管纪律','异常和重点提示默认阻断','warn')}${gate('保守验证','LCB必须为正，点估计不能单独决定结果','warn')}</div></div>`;
+  }
+
+  function renderPosition() {
+    const p=state.shadowPositions[state.routeData?.index||0] || state.shadowPositions[0] || POSITIONS[0]; const st=STOCKS[p.code] || STOCKS['010823'];
+    return `<div class="page">${subhead('影子持仓详情')}<div class="shadow-banner">${shadowDisclosure()}<b>非券商真实持仓</b><span>成本、数量、收益和风险线均为用户手动记录或演示数据。</span></div><div class="card shadow-card">${shadowDisclosure()}${kv('证券',`${st.name} ${p.code}`)}${kv('策略与持有',`${p.strategy} · ${p.day}`)}${kv('影子成本',p.cost)}${kv('参考价格',st.price)}${kv('影子数量',`${p.shares.toLocaleString()}股`)}${kv('研究动作','HOLD研究状态','purple')}${kv('EffectiveStop',Math.max(st.stop,p.cost*.973).toFixed(2))}${kv('监管状态',st.regulatory,st.regulatory==='NORMAL'?'green':'red')}</div><div class="actions"><button class="btn secondary" data-action="toast" data-message="已创建影子持仓复核任务">记录复核</button><button class="btn equal-confirm" data-action="toast" data-message="已生成影子退出研究卡（演示）">生成研究卡</button></div></div>`;
+  }
+
+  function renderMediumProcess() {
+    const steps=['基本面稳定','估值和错杀识别','下跌动量衰减','趋势与资金连续确认','DecisionValue与成本','资金预留','5至15日持仓','失效退出'];
+    return `<div class="page">${subhead('中长完整流程')}<div class="card">${steps.map((x,i)=>`<div class="event"><i class="event-dot"></i><h3>${i+1}. ${x}</h3><p>${i<5?'已通过':'等待执行条件'}</p></div>`).join('')}</div></div>`;
+  }
+
+  function renderReconcile() {
+    return `<div class="page">${subhead('影子持仓核对')}<div class="shadow-banner">${shadowDisclosure()}<b>只核对本机记录结构</b><span>不代表与任何券商真实账户一致。</span></div>${statusCard('✓','本机记录结构完整','核对只检查用户手动录入的数据，不代表与券商真实持仓一致。','最近本机核对 15:05:12')}<div class="card shadow-card">${shadowDisclosure()}${kv('缺失成本记录','0')}${kv('缺失持仓数量','0')}${kv('券商实时差异','无法计算','amber')}${kv('账户模式','SHADOW_ACCOUNT','purple')}</div><button class="btn secondary full" data-route="account-mode">查看账户接入边界</button></div>`;
+  }
+
+  function renderMessages() {
+    let feed=state.messageTab==='all'?MESSAGE_FEED:MESSAGE_FEED.filter(x=>x.type===state.messageTab);
+    if(state.messageFollowedOnly) feed=feed.filter(x=>!x.code||state.radarWatchlist.includes(x.code)||state.safetyWatchlist.includes(x.code));
+    return `<div class="page">${subhead('消息')}<div class="row"><div>${badge(`${state.unreadMessages}条未读`,'red')}<div class="sub">监管安全网、每日解释和持仓复核</div></div><button class="btn secondary" data-action="mark-read">全部已读</button></div><div class="message-filter-row"><div class="seg">${[['all','全部'],['regulatory','监管'],['daily','每日'],['position','持仓'],['system','系统']].map(([v,l])=>`<button class="${state.messageTab===v?'active':''}" data-action="message-tab" data-message-tab="${v}">${l}</button>`).join('')}</div><button class="toggle ${state.messageFollowedOnly?'on':''}" data-action="toggle-followed-messages">${state.messageFollowedOnly?'仅看关注':'全部股票'}</button></div>${feed.map(m=>`<article class="card message-card ${m.type==='position'?'shadow-card':''}" data-action="message-open" data-message-id="${m.id}">${m.type==='position'?shadowDisclosure():''}<div class="row"><div class="grow"><div class="title">${isProDetail()?m.title:m.title.replace('EffectiveStop','风险线')}</div><div class="sub">${isProDetail()?m.body:m.body.replace('DecisionValue下界','保守优势').replace('EffectiveStop','风险线')}</div></div>${badge(m.level,m.tone)}</div><div class="message-meta"><span>${m.time}</span><span>${m.code?m.code+' · ':''}${m.type==='regulatory'?'监管实时':m.type==='daily'?'每日摘要':m.type==='position'?'影子持仓复核':'系统状态'}</span></div></article>`).join('')||statusCard('∅','暂无此类消息','消息会在满足对应触发条件时出现。','消息中心')}</div>`;
+  }
+
+  function renderRoute() {
+    switch(state.route){
+      case 'profile':return renderProfile(); case 'messages':return renderMessages(); case 'boundaries':return renderBoundaries(); case 'watchlist-radar':return renderWatchlistRadar(); case 'api-playground':return renderApiPlayground(); case 'qualification':return renderQualification(); case 'performance':return renderPerformance(); case 'risk-profile':return renderRiskProfile(); case 'account-mode':return renderAccountMode(); case 'subscription':return renderSubscription(); case 'notifications':return renderNotificationSettings(); case 'safety-net':return renderSafetyNet(); case 'institutional':return renderInstitutional(); case 'detail-mode':return renderDetailMode(); case 'regulatory-list':return renderRegulatoryList(); case 'regulatory':return renderRegulatoryDetail(); case 'decision-detail':return renderDecisionDetail(); case 'position':return renderPosition(); case 'medium-process':return renderMediumProcess(); case 'reconcile':return renderReconcile(); case 'shadow-check':return renderReconcile(); case 'zero-explanation':return renderZeroExplanation(); default:return renderSettings(state.route);
+    }
+  }
+
+  function topbar(){return `<button class="top-action" data-route="profile">我</button><div class="logo">NIUD.AI<small>${detailLevel().short} · 研究与风险守门</small></div><button class="top-action has-dot" data-route="messages">消息</button>`;}
+  function navbar(){return [['home','⌂','首页'],['morning','☀','早选'],['tail','◒','尾选'],['medium','↺','中长'],['stock','⌕','个股'],['tracking','▥','跟踪']].map(([v,i,l])=>`<button class="${state.tab===v?'active':''}" data-tab="${v}"><span class="nav-icon">${i}</span>${l}</button>`).join('');}
+
+  function render() {
+    const renderers={home:renderHome,morning:renderMorning,tail:renderTail,medium:renderMedium,stock:renderStock,tracking:renderTracking};
+    $('#app-shell').innerHTML=`<header class="topbar">${topbar()}</header><main class="main">${state.route?renderRoute():(renderers[state.tab]||renderHome)()}</main><button class="help-fab" data-route="onboarding" aria-label="这是什么意思">?</button><nav class="bottom-nav ${state.route?'hidden':''}">${navbar()}</nav>`;
+    document.title='NiuD.AI 手机端 Demo V4.6';
+    updateLiveUi();
+  }
+
+  function navigate(route,data={}){state.history.push({tab:state.tab,route:state.route,routeData:state.routeData});state.route=route;state.routeData=data;render();window.scrollTo({top:0,behavior:'instant'});}
+  function back(){const p=state.history.pop();if(p){state.tab=p.tab;state.route=p.route;state.routeData=p.routeData;}else{state.route=null;state.routeData=null;}render();window.scrollTo({top:0,behavior:'instant'});}
+  function showToast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>t.classList.remove('show'),1800);}
+
+  function createHonestyReportDataUrl() {
+    const canvas=document.createElement('canvas'); canvas.width=1080; canvas.height=1350;
+    const ctx=canvas.getContext('2d');
+    const rounded=(x,y,w,h,r,fill)=>{ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill();};
+    ctx.fillStyle='#0f1b2f';ctx.fillRect(0,0,1080,1350);
+    ctx.fillStyle='#7aa7ff';ctx.font='700 34px system-ui';ctx.fillText('NIUD.AI',70,90);
+    ctx.fillStyle='#ffffff';ctx.font='800 70px system-ui';ctx.fillText('今日诚实度报告',70,190);
+    ctx.fillStyle='#cbd5e1';ctx.font='400 30px system-ui';ctx.fillText('0只，也是一项正式决策',70,245);
+    rounded(70,300,940,170,34,'#162844');
+    ctx.fillStyle='#ffffff';ctx.font='800 84px system-ui';ctx.fillText('16',110,405);
+    ctx.font='500 28px system-ui';ctx.fillStyle='#a9bad0';ctx.fillText('个候选完成硬闸门检查',260,390);
+    ctx.fillText('没有为了给结果而降低标准',260,430);
+    const groups=[['价格条件未通过','9只','#e8a23b'],['监管闸门阻断','2只','#ff717b'],['保守优势不足','4只','#ad9dff'],['组合与现金约束','1只','#78a8ff']];
+    groups.forEach((g,i)=>{const y=520+i*132;rounded(70,y,940,102,24,'#141f30');ctx.fillStyle=g[2];ctx.font='700 30px system-ui';ctx.fillText(g[0],105,y+45);ctx.fillStyle='#fff';ctx.font='800 32px system-ui';ctx.textAlign='right';ctx.fillText(g[1],970,y+58);ctx.textAlign='left';});
+    ctx.fillStyle='#ffffff';ctx.font='700 30px system-ui';ctx.fillText('我们敢于什么都不推荐',70,1110);
+    ctx.fillStyle='#9fb0c5';ctx.font='400 25px system-ui';ctx.fillText('监管、价格、成本、LCB和组合约束全部保留。',70,1155);
+    rounded(70,1200,940,78,20,'#3a2454');ctx.fillStyle='#e7dcff';ctx.font='700 25px system-ui';ctx.fillText('研究原型 · 非投资建议 · 历史表现不代表未来',105,1248);
+    ctx.fillStyle='#718198';ctx.font='400 21px system-ui';ctx.fillText(new Date().toLocaleDateString('zh-CN')+' · Demo V4.6',70,1320);
+    return canvas.toDataURL('image/png');
+  }
+
+  function showHonestyReport() {
+    state.honestyReportImage=createHonestyReportDataUrl();
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal"><div class="grab"></div><div class="row"><div><div class="title">今日诚实度报告</div><div class="sub">图片已强制加入研究原型与非投资建议水印。</div></div>${badge('PNG','blue')}</div><img class="share-preview" src="${state.honestyReportImage}" alt="今日诚实度报告预览"><div class="confirm-actions"><button class="btn cancel-strong" data-action="close-modal">返回</button><button class="btn continue-equal" data-action="download-honesty">保存图片</button></div></section></div>`;
+  }
+
+  function showBoundaryConsent(force=false) {
+    state.boundaryCheckbox=false;
+    $('#modal-root').innerHTML=`<div class="modal-backdrop boundary-backdrop"><section class="modal boundary-modal"><div class="onboarding-mark">PRODUCT BOUNDARIES</div><h2>${force?'重新确认产品边界':'进入前必须确认产品边界'}</h2><p class="modal-copy">NiuD.AI是研究、事实与风险守门工具。它不保证收益、不替代持牌投顾、不自动下单，影子持仓也不是你的真实券商资产。</p><div class="onboarding-grid">${gate('不做收益保证','任何研究结论都可能失效','block')}${gate('不出具公众个性化建议','具体价格、仓位和执行时点受资质锁定','block')}${gate('不伪装真实账户','所有SHADOW数据均带强制水印','block')}${gate('历史样本有限','胜率必须同时看样本量和置信区间','warn')}</div><label class="boundary-check"><input id="boundary-checkbox" type="checkbox"> <span>我已阅读并理解以上边界，知道本产品不是保证收益的荐股服务。</span></label><button class="btn primary full" data-action="accept-boundaries" disabled>确认并继续</button><button class="btn secondary full" style="margin-top:8px" data-action="view-boundaries-modal">查看完整产品边界</button></section></div>`;
+  }
+
+  function showBoundaryFullModal() {
+    $('#modal-root').innerHTML=`<div class="modal-backdrop boundary-backdrop"><section class="modal boundary-modal"><div class="onboarding-mark">完整产品边界</div><h2>产品可以做什么，也必须明确不能做什么</h2><div class="onboarding-grid">${gate('研究与事实','市场状态、监管事件、证据链、数据血缘和风险结构')}${gate('明确不做','收益保证、代客理财、自动下单、公众个性化买卖建议','block')}${gate('数据边界','数据源、商业许可、延迟、覆盖和故障状态必须透明','warn')}${gate('历史表现','回测、影子和实盘分离，胜率必须带样本量和区间','warn')}${gate('会员边界','付费不能绕过投顾资质或解锁公众具体建议','block')}${gate('影子持仓','所有影子数字永久带SHADOW水印','warn')}</div><button class="btn primary full" data-action="reconfirm-boundaries">返回确认</button></section></div>`;
+  }
+
+  function showRemoveSafetyConfirm(code) {
+    const st=STOCKS[code]||{name:'自选证券'};
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal"><div class="grab"></div><div class="title">停止监测 ${st.name} ${code}？</div><p class="modal-copy">停止后将不再接收这只股票的监管安全网提醒。请选择原因，帮助产品理解流失。</p><select id="remove-reason" class="form-input"><option value="sold">已卖出或不再关注</option><option value="too_many">监测数量太多</option><option value="notifications">提醒过多</option><option value="trust">对数据准确性有疑问</option><option value="other">其他</option></select><div class="confirm-actions"><button class="btn cancel-strong" data-action="close-modal">保留监测</button><button class="btn continue-equal" data-action="confirm-remove-safety" data-code="${code}">确认停止</button></div></section></div>`;
+  }
+
+  function showTermInfo() {
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal compact-modal"><div class="grab"></div><div class="title">S2 共振是什么意思？</div><p class="modal-copy">指数、行业和市场广度方向较一致，系统允许部分策略寻找机会。它不是“市场一定上涨”，所有证券仍需逐只通过监管、数据、价格、风险和执行闸门。</p><button class="btn secondary full" data-action="close-modal">我知道了</button></section></div>`;
+  }
+
+  function showOnboarding() {
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal onboarding-modal"><div class="grab"></div><div class="onboarding-mark">NIUD.AI</div><h2>先看安全，再看机会</h2><p class="modal-copy">NiuD.AI默认是公众研究工具。你可以先使用持仓安全网和监管事实提醒，不需要连接券商，也不需要立即做风险测评。</p><div class="onboarding-grid">${gate('持仓安全网','输入代码即可订阅监管事实')}${gate('公众工具模式','具体个性化买卖建议默认锁定')}${gate('影子持仓','手动记录，不冒充券商账户')}${gate('历史表现','回测、影子和实盘分开披露')}</div><button class="btn primary full" data-action="onboarding-safety">先添加持仓预警</button><button class="btn secondary full" style="margin-top:8px" data-action="finish-onboarding">直接进入首页</button></section></div>`;
+  }
+
+  function showRiskAssessment() {
+    const q=RISK_QUESTIONS[state.riskStep];
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal"><div class="grab"></div><div class="row"><div><div class="title">风险偏好与认知确认</div><div class="sub">第${state.riskStep+1}/${RISK_QUESTIONS.length}题 · 非正式适当性测评</div></div>${badge(q.type==='ack'?'强制认知确认':'轻量引导',q.type==='ack'?'red':'amber')}</div><h2 class="question-title">${q.q}</h2><div class="answer-list">${q.options.map(([label,score,ack])=>`<button data-action="risk-answer" data-score="${score}" data-ack="${ack===true}">${label}</button>`).join('')}</div>${q.type==='ack'?`<div class="notice red">只有明确理解产品不等于荐股、也不保证收益，才能完成本次风险沟通确认。</div>`:''}<button class="btn secondary full" data-action="close-modal">退出测评</button></section></div>`;
+  }
+
+  function finishRiskAssessment() {
+    const score=state.riskAnswers.reduce((a,b)=>a+b,0);
+    state.riskProfile=score<=2?'conservative':score<=5?'balanced':'active';
+    state.riskStep=0; state.riskAnswers=[]; state.onboardingSeen=true; if(!state.riskUnderstandingConfirmedAt) state.riskUnderstandingConfirmedAt=Date.now(); persist();
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal onboarding-modal"><div class="grab"></div><div class="onboarding-mark">${riskProfile().label}</div><h2>风险偏好引导完成</h2><p class="modal-copy">${riskProfile().detail} 产品内仓位提示上限为${riskProfile().maxAllocation}%。这不能替代正式投资者适当性评估。</p><button class="btn primary full" data-action="close-modal">进入NiuD.AI</button></section></div>`;
+  }
+
+  function showLockedContent() {
+    const assessment=state.riskProfile==='unknown';
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal"><div class="grab"></div><div class="title">具体服务内容已锁定</div><div class="notice amber-strong">当前公众工具模式不会向公众开放个性化价格、仓位和执行时点。</div>${kv('平台业务资质','NOT_HELD','red')}${kv('你仍可使用','监管安全网、证据链预览、风险事实和影子持仓')}${assessment?`<div class="notice blue">你首次触碰了锁定内容。可以现在完成5题风险偏好与认知确认，也可以稍后再做。</div>`:''}<div class="confirm-actions"><button class="btn cancel-strong" data-route="qualification">查看服务边界</button><button class="btn continue-equal" data-action="${assessment?'start-risk-assessment':'close-modal'}">${assessment?'完成风险偏好与认知确认':'返回'}</button></div></section></div>`;
+  }
+
+  function showExecutionCard(code,strategy) {
+    const s=STOCKS[code];
+    if(!adviceAllowed()) {
+      $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal"><div class="grab"></div><div class="title">具体执行建议已锁定</div><div class="notice red">当前平台未持有证券投资咨询业务资格，公众工具模式不开放具体买入价、仓位和执行时点。</div>${kv('当前模式',platform().label,'blue')}${kv('证券投资咨询业务资格','NOT_HELD','red')}${kv('可用功能','研究证据、监管闸门、风险结构和影子持仓')}<div class="confirm-actions"><button class="btn cancel-strong" data-action="close-modal">返回研究卡</button><button class="btn continue-equal" data-route="qualification">查看商业路径</button></div></section></div>`;
+      return;
+    }
+    if(state.riskProfile==='unknown'){ showRiskAssessment(); return; }
+    const expiry=strategy==='tail'?state.tailExpiry:state.morningExpiry; const expired=Date.now()>=expiry; const blocked=s.regulatory!=='NORMAL'||s.lcb<=0||expired||state.network!=='online'; const fit=riskMatch(s);
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal confirmation-modal" role="dialog" aria-modal="true"><div class="grab"></div><div class="row"><div><div class="title">${blocked?'执行已阻断':'持牌合作流程预览'}</div><div class="sub">${s.name} ${code} · ${strategy}</div></div>${badge(blocked?'BLOCKED':'仅原型预览',blocked?'red':'purple')}</div><div class="confirmation-risk ${blocked?'blocked':''}">${blocked?'当前条件不允许进入人工执行。':fit.mismatch?`当前${s.allocation}%参考仓位高于你的${riskProfile().label}偏好上限${riskProfile().maxAllocation}%，需要额外风险确认。`:'当前无监管阻断，且仓位提示未超过产品内偏好上限。'}</div>${kv('DecisionValue',`+${s.dv}bps`,'blue')}${kv('置信区间下界',`+${s.lcb}bps`,'purple')}${kv('参考仓位',`${s.allocation}%总资产`)}${kv('风险退出价',s.stop)}${kv('监管状态',s.regulatory,s.regulatory==='NORMAL'?'green':'red')}<div class="confirm-countdown" data-countdown="${expiry}">${countdownText(expiry)}</div><div class="notice blue">该页面仅验证持牌合作后的交互结构，不代表当前平台可以对公众提供该服务。</div><div class="confirm-actions"><button class="btn cancel-strong" data-action="close-modal">取消，本次不执行</button><button class="btn continue-equal" data-action="confirm-execution" data-code="${code}" data-strategy="${strategy}" ${blocked?'disabled':''}>我已核对，继续预览</button></div></section></div>`;
+  }
+
+  function showFinalExecution(code,strategy) {
+    const s=STOCKS[code];
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal"><div class="grab"></div><div class="title">持牌合作执行记录预览</div><div class="sub">真实上线时应由持牌机构完成适当性、建议留痕和客户确认；当前仅验证交互。</div>${kv('证券',`${s.name} ${code}`)}${kv('方向','买入')}${kv('价格上限',s.limit)}${kv('建议仓位',`${s.allocation}%`)}${kv('自动下单','未启用','green')}<div class="confirm-actions"><button class="btn cancel-strong" data-action="close-modal">取消</button><button class="btn continue-equal" data-action="record-fill">记录券商结果</button></div></section></div>`;
+  }
+
+
+  function showAddShadow(code) {
+    const s=STOCKS[code]||STOCKS['010823'];
+    $('#modal-root').innerHTML=`<div class="modal-backdrop"><section class="modal"><div class="grab"></div><div class="title">手动添加影子持仓</div><div class="sub">仅保存在本机，用于提醒和复盘，不连接券商。</div><label class="form-label">股票代码</label><input class="form-input" id="shadow-code" value="${code}"><label class="form-label">成本价</label><input class="form-input" id="shadow-cost" type="number" step="0.01" value="${state.stockCost||s.price}"><label class="form-label">持股数量</label><input class="form-input" id="shadow-shares" type="number" step="100" value="1000"><div class="confirm-actions"><button class="btn cancel-strong" data-action="close-modal">取消</button><button class="btn continue-equal" data-action="save-shadow">保存影子持仓</button></div></section></div>`;
+  }
+
+  function saveShadowPosition() {
+    const code=$('#shadow-code')?.value.trim(); const cost=Number($('#shadow-cost')?.value); const shares=Number($('#shadow-shares')?.value);
+    if(!/^\d{6}$/.test(code)||!cost||!shares){showToast('请完整填写代码、成本和数量');return;}
+    const existing=state.shadowPositions.find(x=>x.code===code);
+    if(existing){existing.cost=cost;existing.shares=shares;existing.day='手动更新';}
+    else state.shadowPositions.unshift({code,strategy:'用户影子持仓',day:'第1日',shares,cost});
+    state.noPositions=false;persist();$('#modal-root').innerHTML='';state.tab='tracking';state.route=null;state.trackTab='positions';render();showToast('影子持仓已保存');
+  }
+
+  function updateLiveUi() {
+    $$('[data-relative-time]').forEach(el=>{const ts=Number(el.dataset.relativeTime);el.textContent=relativeTime(ts);el.classList.toggle('stale',freshnessClass(ts,60)==='stale');});
+    $$('[data-countdown]').forEach(el=>{const ts=Number(el.dataset.countdown);el.textContent=countdownText(ts);const expired=Date.now()>=ts;el.classList.toggle('expired',expired);if(expired){const card=el.closest('[data-expiry-card]');if(card){card.classList.add('expired-card');const b=card.querySelector('[data-action="execution-card"]');if(b){b.disabled=true;b.textContent='计划已失效';}}}});
+  }
+
+  document.addEventListener('click',e=>{
+    const t=e.target.closest('[data-tab],[data-route],[data-action],[data-mode],[data-stock-tab],[data-setting]'); if(!t)return;
+    if(t.dataset.tab){state.tab=t.dataset.tab;if(['morning','tail','medium'].includes(t.dataset.tab)){state.strategyVisited=true;state.forceFullHome=true;persist();}state.route=null;state.routeData=null;state.history=[];render();window.scrollTo(0,0);return;}
+    if(t.dataset.route){$('#modal-root').innerHTML='';navigate(t.dataset.route,{code:t.dataset.code,strategy:t.dataset.strategy,index:Number(t.dataset.index||0),eventIndex:t.dataset.eventIndex!==undefined?Number(t.dataset.eventIndex):undefined});return;}
+    if(t.dataset.mode){const[k,v]=t.dataset.mode.split(':');state[k]=v;render();return;}
+    if(t.dataset.stockTab){state.stockTab=t.dataset.stockTab;render();return;}
+    if(t.dataset.setting){const[k,v]=t.dataset.setting.split(':');state[k]=v;applySettings();render();showToast('设置已保存');return;}
+    switch(t.dataset.action){
+      case 'back':back();break;
+      case 'execution-card':showExecutionCard(t.dataset.code,t.dataset.strategy);break;
+      case 'locked-content':showLockedContent();break;
+      case 'confirm-execution':showFinalExecution(t.dataset.code,t.dataset.strategy);break;
+      case 'close-modal':$('#modal-root').innerHTML='';break;
+      case 'record-fill':$('#modal-root').innerHTML='';showToast('已进入券商结果记录流程');break;
+      case 'term-info':showTermInfo();break;
+      case 'open-onboarding':showOnboarding();break;
+      case 'finish-onboarding':state.onboardingSeen=true;persist();$('#modal-root').innerHTML='';showToast('引导完成');break;
+      case 'onboarding-safety':state.onboardingSeen=true;persist();$('#modal-root').innerHTML='';navigate('safety-net');break;
+      case 'load-more-medium':state.mediumVisible=Math.min(15,state.mediumVisible+5);render();break;
+      case 'analyze-stock':{const parsed=parseStockInput($('#stock-input').value);if(!parsed){showToast('请输入6位代码或代码@成本价');return;}if(!STOCKS[parsed.code])STOCKS[parsed.code]={name:'演示证券',sector:'其他',price:10,chg:0,score:70,p5:60,p10:64,p15:66,buy:9.90,limit:10.05,stop:9.45,dv:28,lcb:5,regulatory:'NORMAL',license:'RESEARCH_ONLY',missing:1,allocation:5};state.stockInput=$('#stock-input').value.trim();state.stockCode=parsed.code;state.stockCost=parsed.cost;state.stockMode=parsed.cost?'held':'pre';state.stockTab='decision';render();break;}
+      case 'scenario':{const scenario=t.dataset.scenario;if(scenario==='noPositions'){state.noPositions=!state.noPositions;state.network='online';}else if(scenario==='toolMode'){state.platformMode='tool';state.network='online';}else if(scenario==='partnerMode'){state.platformMode='partnerPreview';state.network='online';}else{state.network=scenario;state.noPositions=false;if(scenario==='online')state.dataTimestamp=Date.now()-3500;if(scenario==='stale')state.dataTimestamp=Date.now()-185000;}persist();render();showToast('状态预览已切换');break;}
+      case 'start-risk-assessment':state.riskStep=0;state.riskAnswers=[];showRiskAssessment();break;
+      case 'risk-answer':{const q=RISK_QUESTIONS[state.riskStep];if(q?.type==='ack'&&t.dataset.ack!=='true'){showToast('请先明确确认：本产品不是保证收益的荐股服务');break;}if(q?.type==='ack')state.riskUnderstandingConfirmedAt=Date.now();state.riskAnswers.push(Number(t.dataset.score));state.riskStep++;if(state.riskStep>=RISK_QUESTIONS.length)finishRiskAssessment();else showRiskAssessment();break;}
+      case 'skip-risk':state.onboardingSeen=true;persist();$('#modal-root').innerHTML='';showToast('可在“我”中完成风险偏好引导');break;
+      case 'platform-mode':state.platformMode=t.dataset.platform;persist();render();showToast('原型模式已切换');break;
+      case 'quant-policy':state.publicQuantPolicy=t.dataset.policy;persist();render();showToast('公众量化展示口径已切换');break;
+      case 'expand-research-home':state.forceFullHome=true;persist();render();showToast('已展开完整研究首页');break;
+      case 'performance-source':state.performanceSource=t.dataset.source;render();break;
+      case 'performance-window':state.performanceWindow=t.dataset.window;render();break;
+      case 'message-tab':state.messageTab=t.dataset.messageTab;render();break;
+      case 'toggle-followed-messages':state.messageFollowedOnly=!state.messageFollowedOnly;persist();render();break;
+      case 'mark-read':state.unreadMessages=0;persist();render();showToast('消息已全部标记为已读');break;
+      case 'message-open':{const message=MESSAGE_FEED.find(x=>x.id===Number(t.dataset.messageId));if(!message)break;if(message.action==='regulatory')navigate('regulatory',{eventIndex:message.eventIndex});else if(message.action==='position')navigate('position',{index:message.index||0});else navigate(message.action);break;}
+      case 'toggle-notification':{const key=t.dataset.pref;state.notificationPrefs[key]=!state.notificationPrefs[key];persist();render();break;}
+      case 'select-plan':state.plan=t.dataset.plan;persist();render();showToast(state.plan==='free'?'已切换免费版用户视角':'Pro研究版用户视角已开启');break;
+      case 'subscribe-safety':{const code=$('#safety-input')?.value.trim();if(!/^\d{6}$/.test(code)){showToast('请输入6位股票代码');break;}if(state.safetyWatchlist.length>=(state.plan==='free'?3:30)&&!state.safetyWatchlist.includes(code)){showToast(state.plan==='free'?'免费版最多监测3只':'Pro研究版最多监测30只');break;}if(!state.safetyWatchlist.includes(code))state.safetyWatchlist.unshift(code);persist();render();showToast('已加入持仓安全网');break;}
+      case 'remove-safety':showRemoveSafetyConfirm(t.dataset.code);break;
+      case 'confirm-remove-safety':{const code=t.dataset.code;const reason=$('#remove-reason')?.value||'unknown';state.safetyWatchlist=state.safetyWatchlist.filter(x=>x!==code);state.safetyRemovalReasons.push({code,reason,at:Date.now()});persist();$('#modal-root').innerHTML='';render();showToast('已停止监测并记录原因');break;}
+      case 'add-shadow':showAddShadow(t.dataset.code);break;
+      case 'open-add-shadow':showAddShadow(state.stockCode);break;
+      case 'save-shadow':saveShadowPosition();break;
+      case 'detail-level':state.detailMode=t.dataset.level;applySettings();render();showToast(`已切换到${detailLevel().label}信息层`);break;
+      case 'share-honesty':showHonestyReport();break;
+      case 'download-honesty':{if(!state.honestyReportImage)state.honestyReportImage=createHonestyReportDataUrl();const a=document.createElement('a');a.href=state.honestyReportImage;a.download='NiuD-AI-今日诚实度报告-V4.6.png';a.click();showToast('图片已生成');break;}
+      case 'add-radar':{const code=$('#radar-input')?.value.trim();if(!/^\d{6}$/.test(code)){showToast('请输入6位股票代码');break;}if(!STOCKS[code])STOCKS[code]={name:'演示证券',sector:'其他',price:10,chg:0,score:70,p5:60,p10:64,p15:66,buy:9.9,limit:10.05,stop:9.45,dv:28,lcb:5,regulatory:'NORMAL',license:'RESEARCH_ONLY',missing:1,allocation:5};if(!state.radarWatchlist.includes(code))state.radarWatchlist.push(code);persist();render();showToast('已加入组合雷达');break;}
+      case 'remove-radar':state.radarWatchlist=state.radarWatchlist.filter(x=>x!==t.dataset.code);persist();render();break;
+      case 'run-api-demo':{const el=$('#api-response');if(el){el.classList.add('api-running');setTimeout(()=>{el.classList.remove('api-running');showToast('机构API演示请求完成');},650);}break;}
+      case 'accept-boundaries':{if(!$('#boundary-checkbox')?.checked){showToast('请先勾选确认');break;}state.boundariesAccepted=true;state.boundariesAcceptedAt=Date.now();persist();$('#modal-root').innerHTML='';showToast('产品边界已确认');if(!state.onboardingSeen)setTimeout(showOnboarding,220);break;}
+      case 'view-boundaries-modal':showBoundaryFullModal();break;
+      case 'reconfirm-boundaries':showBoundaryConsent(true);break;
+      case 'toast':showToast(t.dataset.message||'操作已记录');break;
+    }
+  });
+
+  document.addEventListener('input',e=>{
+    if(e.target?.id==='detail-slider'){
+      const key=Object.keys(DETAIL_LEVELS)[Number(e.target.value)]||'standard';
+      state.detailMode=key;applySettings();render();showToast(`已切换到${detailLevel().label}信息层`);
+    }
+  });
+
+  document.addEventListener('change',e=>{
+    if(e.target?.id==='boundary-checkbox'){
+      const btn=document.querySelector('[data-action="accept-boundaries"]');
+      if(btn)btn.disabled=!e.target.checked;
+    }
+  });
+
+  document.addEventListener('toggle',e=>{
+    const details=e.target.closest?.('[data-layer-key]');
+    if(details){state.layerOpenState[details.dataset.layerKey]=details.open;persist();}
+  },true);
+
+  window.addEventListener('error',e=>console.error('[NiuD.V4.6]',e.error||e.message));
+  window.addEventListener('unhandledrejection',e=>console.error('[NiuD.V4.6 promise]',e.reason));
+
+  applySettings();
+  requestAnimationFrame(()=>{
+    render();
+    document.documentElement.dataset.appMounted='true';
+    setInterval(updateLiveUi,1000);
+    if(!state.boundariesAccepted)setTimeout(()=>showBoundaryConsent(false),220);
+    else if(!state.onboardingSeen)setTimeout(showOnboarding,280);
+    console.info(`[NiuD.AI] Demo V${APP_VERSION} mounted with ${state.demoRole}`);
+  });
+})();
+</script>
+</head>
+<body>
+  <div id="app-shell" class="app-shell" aria-live="polite">
+    <header class="topbar skeleton-topbar" aria-label="正在加载顶部导航">
+      <div class="sk sk-icon"></div>
+      <div class="sk sk-logo"></div>
+      <div class="sk sk-icon"></div>
+    </header>
+    <main class="main skeleton-main" aria-label="正在加载 NiuD.AI">
+      <section class="sk sk-hero"></section>
+      <section class="sk-grid">
+        <div class="sk sk-card"></div><div class="sk sk-card"></div>
+      </section>
+      <section class="sk sk-wide"></section>
+      <section class="sk sk-wide"></section>
+      <section class="sk sk-wide"></section>
+    </main>
+    <nav class="bottom-nav skeleton-nav" aria-label="正在加载底部导航">
+      <div class="sk sk-nav"></div><div class="sk sk-nav"></div><div class="sk sk-nav"></div>
+      <div class="sk sk-nav"></div><div class="sk sk-nav"></div><div class="sk sk-nav"></div>
+    </nav>
+  </div>
+  <div id="modal-root"></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <noscript>
+    <div class="noscript">此交互原型需要启用 JavaScript。</div>
+  </noscript>
+</body>
+</html>
