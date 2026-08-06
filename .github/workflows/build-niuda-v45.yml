@@ -1,0 +1,45 @@
+name: Build NiuD.AI V4.5 artifact
+
+on:
+  push:
+    branches: [niuda-v45]
+    paths:
+      - 'v45-build/**'
+      - '.github/workflows/build-niuda-v45.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: niuda-v45
+
+      - name: Reconstruct verified HTML
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p niuda-v45
+          cat v45-build/chunk_*.txt | tr -d '\r\n' | base64 --decode | gzip --decompress > niuda-v45/index.html
+          cp niuda-v45/index.html niuda-v45/NiuD_AI_Demo_V4.5.html
+          echo '0291a77ece73dc8330947326dc4850be646b9ffb25c6025dbd0c970e42d2d472  niuda-v45/index.html' | sha256sum --check --strict
+          grep -q 'NiuD.AI 手机端 Demo V4.5' niuda-v45/index.html
+          grep -q "APP_VERSION = '4.5.0'" niuda-v45/index.html
+
+      - name: Commit verified artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add niuda-v45/index.html niuda-v45/NiuD_AI_Demo_V4.5.html
+          if git diff --cached --quiet; then
+            echo 'Verified artifact already current.'
+          else
+            git commit -m 'Build verified NiuD.AI V4.5 artifact'
+            git push origin HEAD:niuda-v45
+          fi
